@@ -20,12 +20,32 @@ def exec_ssh(server, cmd):
 
 def get_song_data(server):
 	metadata = exec_ssh(server, 'playerctl metadata')
-	# lenght - album_title = artist - title - track_img_url
+	song_data = {}
+	metadata_lines = metadata.split('\n')
 
-	position = exec_ssh(server, 'playerctl position')
-	volume = exec_ssh(server, 'playerctl volume')
-	status = exec_ssh(server, 'ls')
-	print(metadata, position, volume, status)
+	for line in metadata_lines:
+		line_parts = line.split()
+		if 'mpris:length' in line_parts:
+			song_data['length'] = int(int(line_parts[-1]) / 1000)
+		elif 'xesam:album' in line_parts:
+			song_data['album'] = ' '.join(line_parts[2:])
+		elif 'xesam:artist' in line_parts:
+			song_data['artist'] = ' '.join(line_parts[2:])
+		elif 'xesam:title' in line_parts:
+			song_data['title'] = ' '.join(line_parts[2:])
+		elif 'xesam:url' in line_parts:
+			song_data['url'] = line_parts[-1]
+	song_data['position'] = exec_ssh(server, 'playerctl position')
+	song_data['volume'] = exec_ssh(server, 'playerctl volume')
+	song_data['status'] = exec_ssh(server, 'playerctl status')
+
+	if len(song_data) != 8:
+		raise ValueError("Can't extract (part of the) song data from playerctl")
+	for value in song_data.values():
+		if not value:
+			raise ValueError("Some part of the song data from playerctl is empty")
+
+	return song_data
 
 
 if __name__ == "__main__":
@@ -35,5 +55,6 @@ if __name__ == "__main__":
 		'port': int(os.getenv("SERVER_PORT")),
 		'pass': getpass()
 	}
-	get_song_data(server)
+	song_data = get_song_data(server)
+	print(song_data)
 
