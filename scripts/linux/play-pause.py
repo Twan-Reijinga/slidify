@@ -34,7 +34,7 @@ def get_song_data(server):
 		elif 'xesam:url' in line_parts:
 			song_data['url'] = line_parts[-1]
 	song_data['position'] = exec_ssh(server, 'playerctl -p spotify position')[0:-1]
-	song_data['volume'] = exec_ssh(server, 'playerctl -p spotify volume')[0:-1]
+	song_data['volume'] = float(exec_ssh(server, 'playerctl -p spotify volume')[0:-1])
 	song_data['status'] = exec_ssh(server, 'playerctl -p spotify status')[0:-1]
 
 	if len(song_data) != 8:
