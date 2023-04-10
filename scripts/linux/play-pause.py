@@ -12,7 +12,7 @@ def exec_ssh(server, cmd):
 		ssh.load_system_host_keys()
 		ssh.connect(server['ip'], port=server['port'], username=server['user'], password=server['pass'])
 		(stdin, stdout, stderr) = ssh.exec_command(cmd)
-		cmd_out = stdout.read().decode()[2:-1]
+		cmd_out = stdout.read().decode()
 		print('log printing: ', cmd, cmd_out)
 		return cmd_out
 	finally:
@@ -24,7 +24,7 @@ def get_song_data(server):
 
 	position = exec_ssh(server, 'playerctl position')
 	volume = exec_ssh(server, 'playerctl volume')
-	status = exec_ssh(server, 'playerctl status')
+	status = exec_ssh(server, 'ls')
 	print(metadata, position, volume, status)
 
 
