@@ -6,14 +6,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def exec_ssh(server, cmd):
-	print('running')
 	try:
 		ssh = paramiko.SSHClient()
 		ssh.load_system_host_keys()
 		ssh.connect(server['ip'], port=server['port'], username=server['user'], password=server['pass'])
 		(stdin, stdout, stderr) = ssh.exec_command(cmd)
 		cmd_out = stdout.read().decode()
-		print('log printing: ', cmd, cmd_out)
 		return cmd_out
 	finally:
 		ssh.close()
@@ -25,6 +23,7 @@ def get_song_data(server):
 
 	for line in metadata_lines:
 		line_parts = line.split()
+		if line_parts[0] != 'spotify'
 		if 'mpris:length' in line_parts:
 			song_data['length'] = int(int(line_parts[-1]) / 1000)
 		elif 'xesam:album' in line_parts:
