@@ -23,7 +23,6 @@ def get_song_data(server):
 
 	for line in metadata_lines:
 		line_parts = line.split()
-		if line_parts[0] != 'spotify'
 		if 'mpris:length' in line_parts:
 			song_data['length'] = int(int(line_parts[-1]) / 1000)
 		elif 'xesam:album' in line_parts:
