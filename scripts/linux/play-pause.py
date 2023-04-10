@@ -33,9 +33,9 @@ def get_song_data(server):
 			song_data['title'] = ' '.join(line_parts[2:])
 		elif 'xesam:url' in line_parts:
 			song_data['url'] = line_parts[-1]
-	song_data['position'] = exec_ssh(server, 'playerctl -p spotify position')
-	song_data['volume'] = exec_ssh(server, 'playerctl -p spotify volume')
-	song_data['status'] = exec_ssh(server, 'playerctl -p spotify status')
+	song_data['position'] = exec_ssh(server, 'playerctl -p spotify position')[0:-1]
+	song_data['volume'] = exec_ssh(server, 'playerctl -p spotify volume')[0:-1]
+	song_data['status'] = exec_ssh(server, 'playerctl -p spotify status')[0:-1]
 
 	if len(song_data) != 8:
 		raise ValueError("Can't extract (part of the) song data from playerctl")
