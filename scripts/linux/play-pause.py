@@ -4,13 +4,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-server = {
-	'ip': os.getenv("SERVER_IP"),
-	'user': os.getenv("SERVER_USER"),
-	'port': int(os.getenv("SERVER_PORT")),
-	'pass': input(f'password for {os.getenv("SERVER_USER")}: ')
-}
-
 def exec_ssh(server, cmd):
 	print('running')
 	try:
@@ -24,7 +17,22 @@ def exec_ssh(server, cmd):
 	finally:
 		ssh.close()
 
+def get_song_data(server):
+	metadata = exec_ssh(server, 'playerctl metadata')
+	# lenght - album_title = artist - title - track_img_url
 
-exec_ssh(server, 'playerctl play-pause')
+	position = exec_ssh(server, 'playerctl position')
+	volume = exec_ssh(server, 'playerctl volume')
+	status = exec_ssh(server, 'playerctl status')
+	print(metadata, position, volume, status)
 
+
+if __name__ == "__main__":
+	server = {
+		'ip': os.getenv("SERVER_IP"),
+		'user': os.getenv("SERVER_USER"),
+		'port': int(os.getenv("SERVER_PORT")),
+		'pass': input(f'password for {os.getenv("SERVER_USER")}: ')
+	}
+	get_song_data(server)
 
