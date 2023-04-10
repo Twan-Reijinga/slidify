@@ -12,7 +12,7 @@ def exec_ssh(server, cmd):
 		ssh.load_system_host_keys()
 		ssh.connect(server['ip'], port=server['port'], username=server['user'], password=server['pass'])
 		(stdin, stdout, stderr) = ssh.exec_command(cmd)
-		cmd_out = stdout.read()
+		cmd_out = stdout.read().decode()[2:-1]
 		print('log printing: ', cmd, cmd_out)
 		return cmd_out
 	finally:
