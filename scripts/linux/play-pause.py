@@ -1,5 +1,6 @@
 import os
 import paramiko
+from getpass import getpass
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -32,7 +33,7 @@ if __name__ == "__main__":
 		'ip': os.getenv("SERVER_IP"),
 		'user': os.getenv("SERVER_USER"),
 		'port': int(os.getenv("SERVER_PORT")),
-		'pass': input(f'password for {os.getenv("SERVER_USER")}: ')
+		'pass': getpass()
 	}
 	get_song_data(server)
 
