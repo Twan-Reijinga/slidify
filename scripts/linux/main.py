@@ -43,6 +43,8 @@ def get_song_data(server):
 		if not value:
 			raise ValueError("Some part of the song data from playerctl is empty")
 
+    song_data['progress'] =  song_data['position']/song_data['length']
+
 	return song_data
 
 
