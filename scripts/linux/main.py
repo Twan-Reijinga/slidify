@@ -55,6 +55,10 @@ if __name__ == "__main__":
 		'port': int(os.getenv("SERVER_PORT", 22)),
 		'pass': getpass()
 	}
+	for value in server.values():
+		if not value:
+			raise ValueError("Not all environment variables are filled in")
+
 	song_data = get_song_data(server)
 	print(song_data)
 
