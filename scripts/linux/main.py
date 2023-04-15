@@ -50,17 +50,19 @@ def get_linux_song_data(server):
 	return song_data
 
 def get_macos_song_data(server):
-	metadata = exec_ssh(server, 'nowplaying-cli duration album artist title elapsedTime')
+	metadata = exec_ssh(server, './Documents/nowplaying-cli/nowplaying-cli get duration album artist title elapsedTime position')
 	metadata_lines = metadata.split('\n')
+	# lines == 4?
 
 	song_data = {
-		'length': metadata_lines[0],
+		'length': int(float(metadata_lines[0]) * 1000),
 		'album': metadata_lines[1],
 		'artist': metadata_lines[2],
 		'title': metadata_lines[3],
-		'position': metadata_lines[4],
-		'volume': exec_ssh('osascript -e "get volume settings"').split(',')[0].split(':')[1]
+		'position': int(float(metadata_lines[4]) * 1000),
+		'volume': exec_ssh(server, 'osascript -e "get volume settings"').split(',')[0].split(':')[1]
 	}
+	song_data['progress'] =  song_data['position']/song_data['length']
 	print(song_data)
 	
 
