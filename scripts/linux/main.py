@@ -49,6 +49,20 @@ def get_linux_song_data(server):
 
 	return song_data
 
+def get_macos_song_data(server):
+	metadata = exec_ssh(server, 'nowplaying-cli duration album artist title elapsedTime')
+	metadata_lines = metadata.split('\n')
+
+	song_data = {
+		'length': int(float(metadata_lines[0]) * 1000)
+		'album': metadata_lines[1]
+		'artist': metadata_lines[2]
+		'title': metadata_lines[3]
+		'position': metadata_lines[4]
+		'volume': exec_ssh('osascript -e "get volume settings"').split(',')[0].split(':')[1]
+	}
+	print(song_data)
+	
 
 if __name__ == "__main__":
 	server = {
@@ -63,6 +77,11 @@ if __name__ == "__main__":
 
 	server['os'] = exec_ssh(server, 'uname')
 	
+	song_data = {}
 	if server['os'] == 'Linux':
 		song_data = get_linux_song_data(server)
+	elif server['os'] == 'Darwin':
+		song_data = get_macos_song_data(server)
+	else:
+		ValueError("your OS is not yet supported")
 
