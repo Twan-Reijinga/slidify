@@ -18,7 +18,7 @@ def exec_ssh(server, cmd):
 	finally:
 		ssh.close()
 
-def get_song_data(server):
+def get_linux_song_data(server):
 	metadata = exec_ssh(server, 'playerctl -p spotify metadata')
 	song_data = {}
 	metadata_lines = metadata.split('\n')
@@ -62,6 +62,7 @@ if __name__ == "__main__":
 			raise ValueError("Not all environment variables are filled in")
 
 	server['os'] = exec_ssh(server, 'uname')
-
-	song_data = get_song_data(server)
+	
+	if server['os'] == 'Linux':
+		song_data = get_linux_song_data(server)
 
