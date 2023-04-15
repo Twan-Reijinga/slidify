@@ -12,6 +12,8 @@ def exec_ssh(server, cmd):
 		ssh.connect(server['ip'], port=server['port'], username=server['user'], password=server['pass'])
 		(stdin, stdout, stderr) = ssh.exec_command(cmd)
 		cmd_out = stdout.read().decode()
+		if cmd_out[-1] == '\n':
+			cmd_out = [0:-1]
 		return cmd_out
 	finally:
 		ssh.close()
