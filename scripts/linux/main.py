@@ -12,8 +12,8 @@ def exec_ssh(server, cmd):
 		ssh.connect(server['ip'], port=server['port'], username=server['user'], password=server['pass'])
 		(stdin, stdout, stderr) = ssh.exec_command(cmd)
 		cmd_out = stdout.read().decode()
-		if cmd_out[-1] == '\n':
-			cmd_out = [0:-1]
+		if cmd_out and cmd_out[-1] == '\n':
+			cmd_out = cmd_out[0:-1]
 		return cmd_out
 	finally:
 		ssh.close()
@@ -35,9 +35,9 @@ def get_song_data(server):
 			song_data['title'] = ' '.join(line_parts[2:])
 		elif 'xesam:url' in line_parts:
 			song_data['url'] = line_parts[-1]
-	song_data['position'] = int(float(exec_ssh(server, 'playerctl -p spotify position')[0:-1]) * 1000)
-	song_data['volume'] = float(exec_ssh(server, 'playerctl -p spotify volume')[0:-1])
-	song_data['status'] = exec_ssh(server, 'playerctl -p spotify status')[0:-1]
+	song_data['position'] = int(float(exec_ssh(server, 'playerctl -p spotify position')) * 1000)
+	song_data['volume'] = float(exec_ssh(server, 'playerctl -p spotify volume'))
+	song_data['status'] = exec_ssh(server, 'playerctl -p spotify status')
 
 	if len(song_data) != 8:
 		raise ValueError("Can't extract (part of the) song data from playerctl")
@@ -61,7 +61,7 @@ if __name__ == "__main__":
 		if not value:
 			raise ValueError("Not all environment variables are filled in")
 
-	server['os'] = exec_ssh(server, 'uname')[0:-1]
+	server['os'] = exec_ssh(server, 'uname')
 	print(server)
 
 	song_data = get_song_data(server)
