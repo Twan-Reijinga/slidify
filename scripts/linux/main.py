@@ -54,11 +54,11 @@ def get_macos_song_data(server):
 	metadata_lines = metadata.split('\n')
 
 	song_data = {
-		'length': int(float(metadata_lines[0]) * 1000)
-		'album': metadata_lines[1]
-		'artist': metadata_lines[2]
-		'title': metadata_lines[3]
-		'position': metadata_lines[4]
+		'length': int(float(metadata_lines[0]) * 1000),
+		'album': metadata_lines[1],
+		'artist': metadata_lines[2],
+		'title': metadata_lines[3],
+		'position': metadata_lines[4],
 		'volume': exec_ssh('osascript -e "get volume settings"').split(',')[0].split(':')[1]
 	}
 	print(song_data)
