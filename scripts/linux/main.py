@@ -52,7 +52,7 @@ if __name__ == "__main__":
 	server = {
 		'ip': os.getenv("SERVER_IP"),
 		'user': os.getenv("SERVER_USER"),
-		'port': int(os.getenv("SERVER_PORT")),
+		'port': int(os.getenv("SERVER_PORT", 22)),
 		'pass': getpass()
 	}
 	song_data = get_song_data(server)
