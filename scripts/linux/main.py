@@ -62,8 +62,6 @@ if __name__ == "__main__":
 			raise ValueError("Not all environment variables are filled in")
 
 	server['os'] = exec_ssh(server, 'uname')
-	print(server)
 
 	song_data = get_song_data(server)
-	print(song_data)
 
