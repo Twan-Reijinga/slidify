@@ -63,7 +63,7 @@ def get_macos_song_data(server):
 		'volume': exec_ssh(server, 'osascript -e "get volume settings"').split(',')[0].split(':')[1]
 	}
 	song_data['progress'] =  song_data['position']/song_data['length']
-	print(song_data)
+	return song_data
 
 def get_song_data():
 	server = {
@@ -85,8 +85,10 @@ def get_song_data():
 		song_data = get_macos_song_data(server)
 	else:
 		ValueError("your OS is not yet supported")
+	return song_data
 
 	
 
 if __name__ == "__main__":
-	get_song_data()	
+	song_data = get_song_data()	
+	print(song_data)
