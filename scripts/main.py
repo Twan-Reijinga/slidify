@@ -2,7 +2,7 @@ import os
 import paramiko
 from getpass import getpass
 from dotenv import load_dotenv
-from './rotary_encoder.py'
+import './rotary_encoder.py'
 
 load_dotenv()
 
