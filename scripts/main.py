@@ -64,13 +64,12 @@ def get_macos_song_data(server):
 	}
 	song_data['progress'] =  song_data['position']/song_data['length']
 	print(song_data)
-	
 
-if __name__ == "__main__":
+def get_song_data():
 	server = {
 		'ip': os.getenv("SERVER_IP"),
 		'user': os.getenv("SERVER_USER"),
-		'port': int(os.getenv("SERVER_PORT", 22)),
+		'port': int(os. getenv("SERVER_PORT", 22)),
 		'pass': getpass()
 	}
 	for value in server.values():
@@ -87,3 +86,7 @@ if __name__ == "__main__":
 	else:
 		ValueError("your OS is not yet supported")
 
+	
+
+if __name__ == "__main__":
+	get_song_data()	
