@@ -2,6 +2,7 @@ import os
 import paramiko
 from getpass import getpass
 from dotenv import load_dotenv
+from './rotary_encoder.py'
 
 load_dotenv()
 
@@ -91,4 +92,10 @@ if __name__ == "__main__":
 	server['os'] = exec_ssh(ssh, 'uname')
 	song_data = get_song_data(server, ssh)	
 	print(song_data)
+    counter = 0
+    while True:
+		counter += get_rotary_encoder_change()
+		print(counter)
+		sleep(0.01)
+	
 
