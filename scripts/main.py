@@ -87,8 +87,7 @@ def get_song_data():
 		ValueError("your OS is not yet supported")
 	return song_data
 
-	
-
 if __name__ == "__main__":
 	song_data = get_song_data()	
 	print(song_data)
+
