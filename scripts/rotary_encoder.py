@@ -23,7 +23,7 @@ def get_rotary_encoder_change():
                         else:
                                 return -1
 
-def switch_callback():
+def switch_callback(channel):
         print('switch clicked!')
 
 GPIO.add_event_detect(sw, GPIO.FALLING, callback=switch_callback, bouncetime=200)
