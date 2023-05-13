@@ -4,7 +4,7 @@ from RPi import GPIO
 from time import sleep
 from getpass import getpass
 from dotenv import load_dotenv
-from rotary_encoder import setup_rotary_encoder, get_rotary_encoder_change, switch_callback
+from rotary_encoder import setup_rotary_encoder, get_rotary_encoder_change
 
 load_dotenv()
 
@@ -78,23 +78,30 @@ def get_macos_song_data(ssh):
 	song_data['progress'] =  song_data['position']/song_data['length']
 	return song_data
 
-def get_song_data(server, ssh):
+def get_song_data(os, ssh):
 	song_data = {}
-	if server['os'] == 'Linux':
+	if os == 'Linux':
 		song_data = get_linux_song_data(ssh)
-	elif server['os'] == 'Darwin':
+	elif os == 'Darwin':
 		song_data = get_macos_song_data(ssh)
 	else:
 		ValueError("your OS is not yet supported")
 	return song_data
 
+def play_pause_song(os, ssh):
+	if os == 'Linux':
+		exec_ssh(ssh, 'playerctl -p spotify play-pause')
+	elif os == 'Darwin':
+		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli togglePlayPause')
+
 if __name__ == "__main__":
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
 	server['os'] = exec_ssh(ssh, 'uname')
-	song_data = get_song_data(server, ssh)	
+	song_data = get_song_data(server['os'], ssh)	
 	print(song_data)
 	setup_rotary_encoder(17, 18, 27)
+	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	counter = 0
 	while True:
 		counter += get_rotary_encoder_change()
