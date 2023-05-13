@@ -95,12 +95,16 @@ def play_pause_song(os, ssh):
 		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli togglePlayPause')
 
 if __name__ == "__main__":
+	clk = 17
+	dt = 18
+	sw = 27
+
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
 	server['os'] = exec_ssh(ssh, 'uname')
 	song_data = get_song_data(server['os'], ssh)	
 	print(song_data)
-	setup_rotary_encoder(17, 18, 27)
+	setup_rotary_encoder(clk, dt, sw)
 	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	counter = 0
 	while True:
