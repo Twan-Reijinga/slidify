@@ -108,7 +108,7 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	counter = 0
 	while True:
-		counter += get_rotary_encoder_change()
+		counter += get_rotary_encoder_change(clk, dt)
 		print(counter)
 		sleep(0.01)
 	

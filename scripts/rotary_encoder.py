@@ -7,7 +7,7 @@ def setup_rotary_encoder(clk, dt, sw):
 	GPIO.setup(dt, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 	GPIO.setup(sw, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
-def get_rotary_encoder_change():
+def get_rotary_encoder_change(clk, dt):
 	clkLastState = GPIO.input(clk) 
 	update = False
 	while not update:
@@ -26,7 +26,7 @@ if __name__ == "__main__":
 	sw = 27
 	counter = 0
 	while True:
-		counter += get_rotary_encoder_change()
+		counter += get_rotary_encoder_change(clk, dt)
 		print(counter)
 		sleep(0.01)
 
