@@ -1,8 +1,10 @@
 import os
 import paramiko
+from RPi import GPIO
+from time import sleep
 from getpass import getpass
 from dotenv import load_dotenv
-from rotary_encoder.py import get_rotary_encoder_change
+from rotary_encoder import setup_rotary_encoder, get_rotary_encoder_change, switch_callback
 
 load_dotenv()
 
@@ -92,6 +94,7 @@ if __name__ == "__main__":
 	server['os'] = exec_ssh(ssh, 'uname')
 	song_data = get_song_data(server, ssh)	
 	print(song_data)
+	setup_rotary_encoder(17, 18, 27)
 	counter = 0
 	while True:
 		counter += get_rotary_encoder_change()
