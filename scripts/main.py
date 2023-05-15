@@ -33,41 +33,41 @@ def exec_ssh(ssh, cmd):
 		cmd_out = cmd_out[0:-1]
 	return cmd_out
 
-def get_linux_song_data(ssh):
+def get_linux_songData(ssh):
 	metadata = exec_ssh(ssh, 'playerctl -p spotify metadata')
-	song_data = {}
+	songData = {}
 	metadata_lines = metadata.split('\n')
 
 	for line in metadata_lines:
 		line_parts = line.split()
 		if 'mpris:length' in line_parts:
-			song_data['length'] = int(int(line_parts[-1]) / 1000)
+			songData['length'] = int(int(line_parts[-1]) / 1000)
 		elif 'xesam:album' in line_parts:
-			song_data['album'] = ' '.join(line_parts[2:])
+			songData['album'] = ' '.join(line_parts[2:])
 		elif 'xesam:artist' in line_parts:
-			song_data['artist'] = ' '.join(line_parts[2:])
+			songData['artist'] = ' '.join(line_parts[2:])
 		elif 'xesam:title' in line_parts:
-			song_data['title'] = ' '.join(line_parts[2:])
+			songData['title'] = ' '.join(line_parts[2:])
 		elif 'xesam:url' in line_parts:
-			song_data['url'] = line_parts[-1]
-	song_data['position'] = int(float(exec_ssh(ssh, 'playerctl -p spotify position')) * 1000)
-	song_data['volume'] = float(exec_ssh(ssh, 'playerctl -p spotify volume'))
-	song_data['status'] = exec_ssh(ssh, 'playerctl -p spotify status')
+			songData['url'] = line_parts[-1]
+	songData['position'] = int(float(exec_ssh(ssh, 'playerctl -p spotify position')) * 1000)
+	songData['volume'] = float(exec_ssh(ssh, 'playerctl -p spotify volume'))
+	songData['status'] = exec_ssh(ssh, 'playerctl -p spotify status')
 
-	if len(song_data) != 8:
+	if len(songData) != 8:
 		raise ValueError("Can't extract (part of the) song data from playerctl")
-	for value in song_data.values():
+	for value in songData.values():
 		if not value:
 			raise ValueError("Some part of the song data from playerctl is empty")
 
-	song_data['progress'] =  song_data['position']/song_data['length']
+	songData['progress'] =  songData['position']/songData['length']
 
-	return song_data
+	return songData
 
-def get_macos_song_data(ssh):
+def get_macos_songData(ssh):
 	metadata = exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli get duration album artist title elapsedTime position')
 	metadata_lines = metadata.split('\n')
-	song_data = {
+	songData = {
 		'length': int(float(metadata_lines[0]) * 1000),
 		'album': metadata_lines[1],
 		'artist': metadata_lines[2],
@@ -75,18 +75,18 @@ def get_macos_song_data(ssh):
 		'position': int(float(metadata_lines[4]) * 1000),
 		'volume': float(exec_ssh(ssh, 'osascript -e "get volume settings"').split(',')[0].split(':')[1])
 	}
-	song_data['progress'] =  song_data['position']/song_data['length']
-	return song_data
+	songData['progress'] =  songData['position']/songData['length']
+	return songData
 
-def get_song_data(os, ssh):
-	song_data = {}
+def get_songData(os, ssh):
+	songData = {}
 	if os == 'Linux':
-		song_data = get_linux_song_data(ssh)
+		songData = get_linux_songData(ssh)
 	elif os == 'Darwin':
-		song_data = get_macos_song_data(ssh)
+		songData = get_macos_songData(ssh)
 	else:
 		ValueError("your OS is not yet supported")
-	return song_data
+	return songData
 
 def play_pause_song(os, ssh):
 	if os == 'Linux':
@@ -109,13 +109,13 @@ if __name__ == "__main__":
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
 	server['os'] = exec_ssh(ssh, 'uname')
-	song_data = get_song_data(server['os'], ssh)	
-	print(song_data)
+	songData = get_songData(server['os'], ssh)	
+	print(songData)
 	setup_rotary_encoder(clk, dt, sw)
 	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	while True:
-		song_data['volume'] += get_rotary_encoder_change(clk, dt) * volumeStep
-		change_volume(server['os'], ssh, song_data['volume'])
+		songData['volume'] += get_rotary_encoder_change(clk, dt) * volumeStep
+		change_volume(server['os'], ssh, songData['volume'])
 		sleep(0.01)
 	
 
