@@ -104,6 +104,7 @@ if __name__ == "__main__":
 	clk = 17
 	dt = 18
 	sw = 27
+	volumeStep = 10
 
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
@@ -113,7 +114,7 @@ if __name__ == "__main__":
 	setup_rotary_encoder(clk, dt, sw)
 	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	while True:
-		song_data['volume'] += get_rotary_encoder_change(clk, dt)
+		song_data['volume'] += get_rotary_encoder_change(clk, dt) * volumeStep
 		change_volume(server['os'], ssh, song_data['volume'])
 		sleep(0.01)
 	
