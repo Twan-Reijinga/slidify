@@ -115,6 +115,10 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	while True:
 		songData['volume'] += get_rotary_encoder_change(clk, dt) * volumeStep
+		if songData['volume'] < 0:
+			songData['volume'] = 0
+		if songData['volume'] > 100:
+			songData['volume'] = 100
 		change_volume(server['os'], ssh, songData['volume'])
 		sleep(0.01)
 	
