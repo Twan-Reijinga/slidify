@@ -73,7 +73,7 @@ def get_macos_song_data(ssh):
 		'artist': metadata_lines[2],
 		'title': metadata_lines[3],
 		'position': int(float(metadata_lines[4]) * 1000),
-		'volume': exec_ssh(ssh, 'osascript -e "get volume settings"').split(',')[0].split(':')[1]
+		'volume': float(exec_ssh(ssh, 'osascript -e "get volume settings"').split(',')[0].split(':')[1])
 	}
 	song_data['progress'] =  song_data['position']/song_data['length']
 	return song_data
