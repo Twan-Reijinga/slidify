@@ -96,9 +96,9 @@ def play_pause_song(os, ssh):
 
 def change_volume(os, ssh, volume):
 	if os == 'Linux':
-		exec_ssh(ssh, 'playerctl -p spotify {0}'.format(volume))
+		exec_ssh(ssh, 'playerctl -p spotify {0}'.format(str(volume)))
 	elif os == 'Darwin':
-		exec_ssh(ssh, 'osascript -e "set volume output volume {0}"'.format(volume))
+		exec_ssh(ssh, 'osascript -e "set volume output volume {0}"'.format(str(volume)))
 
 if __name__ == "__main__":
 	clk = 17
