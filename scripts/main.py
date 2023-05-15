@@ -94,6 +94,12 @@ def play_pause_song(os, ssh):
 	elif os == 'Darwin':
 		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli togglePlayPause')
 
+def change_volume(os, ssh, volume):
+	if os == 'Linux':
+		exec_ssh(ssh, 'playerctl -p spotify {0}'.format(volume))
+	elif os == 'Darwin':
+		exec_ssh(ssh, 'osascript -e "set volume output volume {0}"'.format(volume))
+
 if __name__ == "__main__":
 	clk = 17
 	dt = 18
@@ -106,10 +112,9 @@ if __name__ == "__main__":
 	print(song_data)
 	setup_rotary_encoder(clk, dt, sw)
 	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
-	counter = 0
 	while True:
-		counter += get_rotary_encoder_change(clk, dt)
-		print(counter)
+		song_data['volume'] += get_rotary_encoder_change(clk, dt)
+		change_volume(server['os'], ssh, song_data['volume'])
 		sleep(0.01)
 	
 
