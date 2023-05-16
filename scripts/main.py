@@ -111,13 +111,13 @@ if __name__ == "__main__":
 	dt = 18
 	sw = 27
 	volumeStep = 10
-	prev_song(os, ssh)
 
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
 	server['os'] = exec_ssh(ssh, 'uname')
 	songData = get_songData(server['os'], ssh)	
 	print(songData)
+	prev_song(server['os'], ssh)
 	setup_rotary_encoder(clk, dt, sw)
 	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	while True:
