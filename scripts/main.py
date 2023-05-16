@@ -101,7 +101,7 @@ def change_volume(os, ssh, volume):
 		exec_ssh(ssh, 'osascript -e "set volume output volume {0}"'.format(str(volume)))
 
 def change_song(os, ssh, action):
-	if not action == 'previous' and action == 'next':
+	if not (action == 'previous' and action == 'next'):
 		raise ValueError('change_song action not supported')
 	if os == 'Linux':
 		exec_ssh(ssh, 'playerctl -p spotify {}'.format(action))
