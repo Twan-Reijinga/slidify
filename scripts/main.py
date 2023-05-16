@@ -100,11 +100,18 @@ def change_volume(os, ssh, volume):
 	elif os == 'Darwin':
 		exec_ssh(ssh, 'osascript -e "set volume output volume {0}"'.format(str(volume)))
 
+def prev_song(os, ssh):
+	if os == 'Linux':
+		exec_ssh(ssh, 'playerctl -p spotify previous')
+	elif os == 'Darwin':
+		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli previous')
+
 if __name__ == "__main__":
 	clk = 17
 	dt = 18
 	sw = 27
 	volumeStep = 10
+	prev_song(os, ssh)
 
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
