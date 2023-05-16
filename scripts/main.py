@@ -85,7 +85,7 @@ def get_songData(os, ssh):
 	elif os == 'Darwin':
 		songData = get_macos_songData(ssh)
 	else:
-		ValueError("your OS is not yet supported")
+		raise ValueError("your OS is not yet supported")
 	return songData
 
 def play_pause_song(os, ssh):
@@ -100,11 +100,13 @@ def change_volume(os, ssh, volume):
 	elif os == 'Darwin':
 		exec_ssh(ssh, 'osascript -e "set volume output volume {0}"'.format(str(volume)))
 
-def prev_song(os, ssh):
+def change_song(os, ssh, action):
+	if action != 'previous' or action != 'next':
+		raise ValueError('change_song action not supported')
 	if os == 'Linux':
-		exec_ssh(ssh, 'playerctl -p spotify previous')
+		exec_ssh(ssh, 'playerctl -p spotify {}'.format(action))
 	elif os == 'Darwin':
-		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli previous')
+		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli {}'.format(action))
 
 if __name__ == "__main__":
 	clk = 17
@@ -117,7 +119,7 @@ if __name__ == "__main__":
 	server['os'] = exec_ssh(ssh, 'uname')
 	songData = get_songData(server['os'], ssh)	
 	print(songData)
-	prev_song(server['os'], ssh)
+	change_song(server['os'], ssh, 'next')
 	setup_rotary_encoder(clk, dt, sw)
 	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	while True:
