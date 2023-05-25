@@ -96,9 +96,9 @@ def play_pause_song(os, ssh):
 
 def change_volume(os, ssh, volume):
 	if os == 'Linux':
-		exec_ssh(ssh, 'playerctl -p spotify {0}'.format(str(volume)))
+		exec_ssh(ssh, 'playerctl -p spotify {}'.format(str(volume)))
 	elif os == 'Darwin':
-		exec_ssh(ssh, 'osascript -e "set volume output volume {0}"'.format(str(volume)))
+		exec_ssh(ssh, 'osascript -e "set volume output volume {}"'.format(str(volume)))
 
 def change_song(os, ssh, action):
 	if not action == 'previous' and not action == 'next':
@@ -107,6 +107,12 @@ def change_song(os, ssh, action):
 		exec_ssh(ssh, 'playerctl -p spotify {}'.format(action))
 	elif os == 'Darwin':
 		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli {}'.format(action))
+
+def change_song_position(os, ssh, position):
+	if os == 'Linux':
+		exec_ssh(ssh, 'playerctl -p spotify position {}'.format(str(position)))
+	else:
+		print("position to {}: changing possiton is not yet supported on your system".format(str(position)))
 
 if __name__ == "__main__":
 	clk = 17
@@ -119,7 +125,7 @@ if __name__ == "__main__":
 	server['os'] = exec_ssh(ssh, 'uname')
 	songData = get_songData(server['os'], ssh)	
 	print(songData)
-	change_song(server['os'], ssh, 'next')
+	change_song_position(server['os'], ssh, 50)
 	setup_rotary_encoder(clk, dt, sw)
 	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	while True:
