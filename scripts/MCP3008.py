@@ -42,9 +42,9 @@ if __name__ == "__main__":
 	dout = 16
 	din = 20
 	cs = 21
+	channel = 0
 
 	while True:
-		channel = 0
-		value = read_adc(channel, clk, dout, din, cs)
+		value = get_analog_value(channel, clk, dout, din, cs)
 		print(f"ADC Value (Channel {channel}): {value}")
 		sleep(1)
