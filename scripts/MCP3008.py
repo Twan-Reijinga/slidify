@@ -2,16 +2,16 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 def setup_MCP3008(clk, dout, din, cs):
-	GPIO.setup(CLK, GPIO.OUT)
-	GPIO.setup(DOUT, GPIO.IN)
-	GPIO.setup(DIN, GPIO.OUT)
-	GPIO.setup(CS, GPIO.OUT)
+	GPIO.setup(clk, GPIO.OUT)
+	GPIO.setup(dout, GPIO.IN)
+	GPIO.setup(din, GPIO.OUT)
+	GPIO.setup(cs, GPIO.OUT)
 
 def	get_analog_value(channel, clk, dout, din, cs):
 	# Send start bit
-	GPIO.output(CS, GPIO.HIGH)
-	GPIO.output(CLK, GPIO.LOW)
-	GPIO.output(CS, GPIO.LOW)
+	GPIO.output(cs, GPIO.HIGH)
+	GPIO.output(clk, GPIO.LOW)
+	GPIO.output(cs, GPIO.LOW)
 	
 	# Send command (start bit, single-ended, channel selection)
 	command = channel
