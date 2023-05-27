@@ -43,7 +43,8 @@ if __name__ == "__main__":
 	din = 20
 	cs = 21
 	channel = 0
-
+	
+	setup_MCP3008(clk, dout, din, cs)
 	while True:
 		value = get_analog_value(channel, clk, dout, din, cs)
 		print(f"ADC Value (Channel {channel}): {value}")
