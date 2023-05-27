@@ -115,10 +115,11 @@ def change_song_position(os, ssh, position):
 		print("position to {}: changing possiton is not yet supported on your system".format(str(position)))
 
 if __name__ == "__main__":
+	volumeStep = 10
+	# rotary encoder pins
 	clk = 17
 	dt = 18
 	sw = 27
-	volumeStep = 10
 
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
