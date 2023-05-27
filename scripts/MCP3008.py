@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 from time import sleep
 
 def setup_MCP3008(clk, dout, din, cs):
+	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(clk, GPIO.OUT)
 	GPIO.setup(dout, GPIO.IN)
 	GPIO.setup(din, GPIO.OUT)
