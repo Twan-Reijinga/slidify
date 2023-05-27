@@ -5,6 +5,7 @@ from time import sleep
 from getpass import getpass
 from dotenv import load_dotenv
 from rotary_encoder import setup_rotary_encoder, get_rotary_encoder_change
+from MCP3008 import setup_MCP3008, get_analog_value
 
 load_dotenv()
 
@@ -116,21 +117,29 @@ def change_song_position(os, ssh, position):
 
 if __name__ == "__main__":
 	volumeStep = 10
-	# rotary encoder pins
-	clk = 17
-	dt = 18
-	sw = 27
+	rotaryClk = 17
+	rotaryDt = 18
+	rotarySw = 27
+	adcClk = 12
+	adcDout = 16
+	adcDin = 20
+	adcCs = 21
+	adcChannel = 0
 
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
 	server['os'] = exec_ssh(ssh, 'uname')
 	songData = get_songData(server['os'], ssh)	
 	print(songData)
+
 	change_song_position(server['os'], ssh, 50)
-	setup_rotary_encoder(clk, dt, sw)
-	GPIO.add_event_detect(sw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
+	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
+	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
+	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	while True:
-		songData['volume'] += get_rotary_encoder_change(clk, dt) * volumeStep
+		slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
+		print(slider_position)
+		songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
 		if songData['volume'] < 0:
 			songData['volume'] = 0
 		if songData['volume'] > 100:
