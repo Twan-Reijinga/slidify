@@ -28,14 +28,14 @@ def lumpy(val, pwm):
                 pwm.ChangeDutyCycle(0)
 
 def slide_to_value(target, val, pwm):
-    if abs(val - targetValue) > 20:
-        if val > targetValue:
+    if abs(val - target) > 20:
+        if val > target:
             GPIO.output(in1, GPIO.LOW)
             GPIO.output(in2, GPIO.HIGH)
         else:
             GPIO.output(in1, GPIO.HIGH)
             GPIO.output(in2, GPIO.LOW)
-        pwm.ChangeDutyCycle(max(min(abs(val - targetValue), 255), 200))
+        pwm.ChangeDutyCycle(max(min(abs(val - target), 255), 200))
     else:
         GPIO.output(in1, GPIO.LOW)
         GPIO.output(in2, GPIO.LOW)
