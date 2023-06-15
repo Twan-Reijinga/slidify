@@ -6,6 +6,7 @@ from getpass import getpass
 from dotenv import load_dotenv
 from rotary_encoder import setup_rotary_encoder, get_rotary_encoder_change
 from MCP3008 import setup_MCP3008, get_analog_value
+from motor_control import setup_motor, slide_to_value
 
 load_dotenv()
 
@@ -125,6 +126,9 @@ if __name__ == "__main__":
 	adcDin = 20
 	adcCs = 21
 	adcChannel = 0
+	in1 = 19
+	in2 = 13
+	en = 26
 
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
@@ -132,7 +136,8 @@ if __name__ == "__main__":
 	songData = get_songData(server['os'], ssh)	
 	print(songData)
 
-	change_song_position(server['os'], ssh, 50)
+	pwm = setup_motor(19, 13, 26)
+	GPIO.setwarnings(False)
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
 	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
