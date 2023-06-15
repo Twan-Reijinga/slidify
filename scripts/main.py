@@ -141,7 +141,8 @@ if __name__ == "__main__":
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
 	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
-	for i in range(10):
+	
+	try:
 		print(i)
 		slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
 		print(slider_position)
@@ -152,8 +153,11 @@ if __name__ == "__main__":
 		if songData['volume'] > 100:
 			songData['volume'] = 100
 		change_volume(server['os'], ssh, songData['volume'])
+		sleep(1)
+	except KeyboardInterrupt:
 		pwm.stop()
 		GPIO.cleanup()
-		sleep(1)
+		print("KeyboardInterrupt")
+
 	
 
