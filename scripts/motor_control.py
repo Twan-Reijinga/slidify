@@ -27,7 +27,7 @@ def lumpy(val, pwm):
             else:
                 pwm.ChangeDutyCycle(0)
 
-def slide_to_value(target, val, pwm):
+def slide_to_value(target, val, in1, in2, pwm):
     if abs(val - target) > 20:
         if val > target:
             GPIO.output(in1, GPIO.LOW)
@@ -43,5 +43,8 @@ def slide_to_value(target, val, pwm):
 
 	
 if __name__ == "__main__":
+	in1 = 19
+	in2 = 13
+	en = 26
 	pwm = setup_motor(19, 13, 26)
-	slide_to_value(1000, 0, pwm)
+	slide_to_value(1000, 0, in1, in2, pwm)
