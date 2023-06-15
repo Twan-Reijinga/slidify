@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO          
 from time import sleep
 
-setup_motor(in1, in2, en):
+def setup_motor(in1, in2, en):
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setmode(GPIO.BCM)
 	GPIO.setup(in1,GPIO.OUT)
