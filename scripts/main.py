@@ -136,6 +136,7 @@ if __name__ == "__main__":
 	songData = get_songData(server['os'], ssh)	
 	print(songData)
 
+	change_song_position(server['os'], ssh, 50)
 	pwm = setup_motor(19, 13, 26)
 	GPIO.setwarnings(False)
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
