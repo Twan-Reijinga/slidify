@@ -9,10 +9,11 @@ def setup_motor(in1, in2, en):
 	GPIO.setup(en,GPIO.OUT)
 	GPIO.output(in1,GPIO.LOW)
 	GPIO.output(in2,GPIO.LOW)
-	PWM=GPIO.PWM(en,1000)
-	PWM.start(25)
+	pwm=GPIO.PWM(en,1000)
+	pwm.start(25)
+	return pwm
 
-def lumpy(val):
+def lumpy(val, pwm):
     for i in range(0, 1024, 200):
         if val > i - 50 and val < i + 50:
             if val > i + 3:
@@ -26,7 +27,7 @@ def lumpy(val):
             else:
                 pwm.ChangeDutyCycle(0)
 
-def slide_to_value(target, val):
+def slide_to_value(target, val, pwm):
     if abs(val - targetValue) > 20:
         if val > targetValue:
             GPIO.output(in1, GPIO.LOW)
@@ -42,5 +43,5 @@ def slide_to_value(target, val):
 
 	
 if __name__ == "__main__":
-	setup_motor(19, 13, 26)
-	lumpy(0)
+	pwm = setup_motor(19, 13, 26)
+	lumpy(0, pwm)
