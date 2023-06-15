@@ -48,9 +48,6 @@ if __name__ == "__main__":
 	in2 = 13
 	en = 26
 	pwm = setup_motor(19, 13, 26)
-	for i in range(100):
-		slide_to_value(1000, 0, in1, in2, pwm)
-		print(i)
-		sleep(1)
+	slide_to_value(1000, 0, in1, in2, pwm)
 	pwm.stop()
 	GPIO.cleanup()
