@@ -43,6 +43,7 @@ def slide_to_value(target, val, in1, in2, pwm):
 
 	
 if __name__ == "__main__":
+	GPIO.setwarnings(False)
 	in1 = 19
 	in2 = 13
 	en = 26
