@@ -143,7 +143,6 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	
 	try:
-		print(i)
 		slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
 		print(slider_position)
 		slide_to_value(1000, slider_position, in1, in2, pwm)
