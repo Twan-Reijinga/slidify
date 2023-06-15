@@ -143,12 +143,14 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	
 	try:
-		dt = 1
+		dt = 0.1
 		while True:
 			songData['position'] += dt
 			songData['progress'] = songData['position']/songData['length']
+			if songData['progress'] > songData['length']:
+				songData = get_songData(server['os'], ssh)	
 			slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
-			print(slider_position)
+			print(f"slider_position: {slider_position} - progress {songData['progress']})
 			slide_to_value(int(songData['progress']*2000), slider_position, in1, in2, pwm)
 			#songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
 			#if songData['volume'] < 0:
