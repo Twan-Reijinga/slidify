@@ -136,7 +136,6 @@ if __name__ == "__main__":
 	songData = get_songData(server['os'], ssh)	
 	print(songData)
 
-	change_song_position(server['os'], ssh, 50)
 	pwm = setup_motor(19, 13, 26)
 	GPIO.setwarnings(False)
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
@@ -145,6 +144,7 @@ if __name__ == "__main__":
 	while True:
 		slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
 		print(slider_position)
+		slide_to_value(1000, slider_position, in1, in2, pwm)
 		songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
 		if songData['volume'] < 0:
 			songData['volume'] = 0
