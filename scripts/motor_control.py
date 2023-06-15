@@ -42,5 +42,5 @@ def slide_to_value(target, val):
 
 	
 if __name__ == "__main__":
-	# TODO: setup
+	setup_motor(19, 13, 26)
 	lumpy(0)
