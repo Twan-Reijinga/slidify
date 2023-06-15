@@ -44,4 +44,4 @@ def slide_to_value(target, val, pwm):
 	
 if __name__ == "__main__":
 	pwm = setup_motor(19, 13, 26)
-	lumpy(0, pwm)
+	slide_to_value(1000, 0, pwm)
