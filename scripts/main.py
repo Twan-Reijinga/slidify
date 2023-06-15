@@ -114,7 +114,7 @@ def change_song_position(os, ssh, position):
 	if os == 'Linux':
 		exec_ssh(ssh, 'playerctl -p spotify position {}'.format(str(position)))
 	else:
-		print("position to {}: changing possiton is not yet supported on your system".format(str(position)))
+		print("position to {}: changing position is not yet supported on your system".format(str(position)))
 
 if __name__ == "__main__":
 	volumeStep = 10
@@ -143,17 +143,20 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	
 	try:
+		dt = 1
 		while True:
+			songData['position'] += dt
+			songData['progress'] = songData['position']/songData['length']
 			slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
 			print(slider_position)
-			slide_to_value(1000, slider_position, in1, in2, pwm)
+			slide_to_value(int(songData['progress']*2000), slider_position, in1, in2, pwm)
 			#songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
 			#if songData['volume'] < 0:
 				#songData['volume'] = 0
 			#if songData['volume'] > 100:
 				#songData['volume'] = 100
 			#change_volume(server['os'], ssh, songData['volume'])
-			sleep(0.1)
+			sleep(dt)
 	except KeyboardInterrupt:
 		pwm.stop()
 		GPIO.cleanup()
