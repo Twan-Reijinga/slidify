@@ -153,7 +153,7 @@ if __name__ == "__main__":
 			#if songData['volume'] > 100:
 				#songData['volume'] = 100
 			#change_volume(server['os'], ssh, songData['volume'])
-			sleep(1)
+			sleep(0.1)
 	except KeyboardInterrupt:
 		pwm.stop()
 		GPIO.cleanup()
