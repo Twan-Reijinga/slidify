@@ -35,7 +35,7 @@ def slide_to_value(target, val, in1, in2, pwm):
         else:
             GPIO.output(in1, GPIO.HIGH)
             GPIO.output(in2, GPIO.LOW)
-        pwm.ChangeDutyCycle(min(abs(val - target), 100))
+        pwm.ChangeDutyCycle(min(abs(val - target), 50))
     else:
         GPIO.output(in1, GPIO.LOW)
         GPIO.output(in2, GPIO.LOW)
@@ -49,3 +49,5 @@ if __name__ == "__main__":
 	en = 26
 	pwm = setup_motor(19, 13, 26)
 	slide_to_value(1000, 0, in1, in2, pwm)
+	pwm.stop()
+	GPIO.cleanup()
