@@ -147,12 +147,12 @@ if __name__ == "__main__":
 			slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
 			print(slider_position)
 			slide_to_value(1000, slider_position, in1, in2, pwm)
-			songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
-			if songData['volume'] < 0:
-				songData['volume'] = 0
-			if songData['volume'] > 100:
-				songData['volume'] = 100
-			change_volume(server['os'], ssh, songData['volume'])
+			#songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
+			#if songData['volume'] < 0:
+				#songData['volume'] = 0
+			#if songData['volume'] > 100:
+				#songData['volume'] = 100
+			#change_volume(server['os'], ssh, songData['volume'])
 			sleep(1)
 	except KeyboardInterrupt:
 		pwm.stop()
