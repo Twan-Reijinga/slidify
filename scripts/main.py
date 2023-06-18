@@ -147,7 +147,7 @@ if __name__ == "__main__":
 		while True:
 			songData['position'] += dt
 			songData['progress'] = songData['position']/songData['length']
-			if songData['progress'] > songData['length']:
+			if songData['position'] > songData['length']:
 				songData = get_songData(server['os'], ssh)	
 			slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
 			print(f"slider_position: {slider_position} - progress {songData['progress']}")
