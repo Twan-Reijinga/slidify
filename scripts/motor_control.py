@@ -1,4 +1,4 @@
-import RPi.GPIO as GPIO          
+import RPi.GPIO as GPIO
 from time import sleep
 
 def setup_motor(in1, in2, en):
@@ -14,32 +14,32 @@ def setup_motor(in1, in2, en):
 	return pwm
 
 def lumpy(val, pwm):
-    for i in range(0, 1024, 200):
-        if val > i - 50 and val < i + 50:
-            if val > i + 3:
-                GPIO.output(in1, GPIO.LOW)
-                GPIO.output(in2, GPIO.HIGH)
-                pwm.ChangeDutyCycle(50)
-            elif val < i - 3:
-                GPIO.output(in1, GPIO.HIGH)
-                GPIO.output(in2, GPIO.LOW)
-                pwm.ChangeDutyCycle(50)
-            else:
-                pwm.ChangeDutyCycle(0)
+	for i in range(0, 1024, 200):
+		if val > i - 50 and val < i + 50:
+			if val > i + 3:
+				GPIO.output(in1, GPIO.LOW)
+				GPIO.output(in2, GPIO.HIGH)
+				pwm.ChangeDutyCycle(50)
+			elif val < i - 3:
+				GPIO.output(in1, GPIO.HIGH)
+				GPIO.output(in2, GPIO.LOW)
+				pwm.ChangeDutyCycle(50)
+			else:
+				pwm.ChangeDutyCycle(0)
 
 def slide_to_value(target, val, in1, in2, pwm):
 	DURATION = 0.01
-    if abs(val - target) > 50:
-        if val > target:
-            GPIO.output(in1, GPIO.LOW)
-            GPIO.output(in2, GPIO.HIGH)
-        else:
-            GPIO.output(in1, GPIO.HIGH)
-            GPIO.output(in2, GPIO.LOW)
-        pwm.ChangeDutyCycle(min(abs(val - target), 25))
+	if abs(val - target) > 50:
+		if val > target:
+			GPIO.output(in1, GPIO.LOW)
+			GPIO.output(in2, GPIO.HIGH)
+		else:
+			GPIO.output(in1, GPIO.HIGH)
+			GPIO.output(in2, GPIO.LOW)
+		pwm.ChangeDutyCycle(min(abs(val - target), 25))
 		sleep(DURATION)
-    GPIO.output(in1, GPIO.LOW)
-    GPIO.output(in2, GPIO.LOW)
+	GPIO.output(in1, GPIO.LOW)
+	GPIO.output(in2, GPIO.LOW)
 	pwm.ChangeDutyCycle(0)
 	
 
