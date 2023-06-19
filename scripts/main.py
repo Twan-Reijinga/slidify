@@ -61,9 +61,6 @@ def get_linux_songData(ssh):
 	for value in songData.values():
 		if not value:
 			raise ValueError("Some part of the song data from playerctl is empty")
-
-	songData['progress'] =  songData['position']/songData['length']
-
 	return songData
 
 def get_macos_songData(ssh):
@@ -77,7 +74,6 @@ def get_macos_songData(ssh):
 		'position': int(float(metadata_lines[4]) * 1000),
 		'volume': float(exec_ssh(ssh, 'osascript -e "get volume settings"').split(',')[0].split(':')[1])
 	}
-	songData['progress'] =  songData['position']/songData['length']
 	return songData
 
 def get_songData(os, ssh):
@@ -146,12 +142,13 @@ if __name__ == "__main__":
 		dt = 100
 		while True:
 			songData['position'] += dt
-			songData['progress'] = songData['position']/songData['length']
+			progress = songData['position']/songData['length']
 			if songData['position'] > songData['length']:
 				songData = get_songData(server['os'], ssh)	
 			slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
-			print(f"slider_position: {slider_position} - progress {songData['progress']}")
-			slide_to_value(int(songData['progress']*2000), slider_position, in1, in2, pwm)
+			print(f"slider_position: {slider_position} - progress {progress}")
+			# toValue = 50 + int(progress * 1900)
+			slide_to_value(toValue, slider_position, in1, in2, pwm)
 			#songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
 			#if songData['volume'] < 0:
 				#songData['volume'] = 0
