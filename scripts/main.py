@@ -150,10 +150,10 @@ if __name__ == "__main__":
 				songData = get_songData(server['os'], ssh)	
 			slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
 			if(slider_position < 50):
-				change_song(os, ssh, 'previous')
+				change_song(server["os"], ssh, 'previous')
 				print("p")
 			if(slider_position > 1960):
-				change_song(os, ssh, 'next')
+				change_song(server["os"], ssh, 'next')
 				print("n")
 			print(f"slider_position: {slider_position} - progress {progress}")
 			toValue = 80 + int(progress * 1850)
