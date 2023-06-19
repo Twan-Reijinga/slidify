@@ -1,7 +1,7 @@
 import os
 import paramiko
 from RPi import GPIO
-from time import sleep
+from time import sleep, time
 from getpass import getpass
 from dotenv import load_dotenv
 from rotary_encoder import setup_rotary_encoder, get_rotary_encoder_change
