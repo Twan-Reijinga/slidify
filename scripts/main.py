@@ -139,9 +139,12 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	
 	try:
-		dt = 100
+		prevTime = time.time()
 		while True:
+			currTime = time.time()
+			dt = currTime - prevTime
 			songData['position'] += dt
+			prevTime = currTime
 			progress = songData['position']/songData['length']
 			if songData['position'] > songData['length']:
 				songData = get_songData(server['os'], ssh)	
@@ -155,7 +158,7 @@ if __name__ == "__main__":
 			#if songData['volume'] > 100:
 				#songData['volume'] = 100
 			#change_volume(server['os'], ssh, songData['volume'])
-			sleep(dt/1000)
+			sleep(0.001)
 	except KeyboardInterrupt:
 		pwm.stop()
 		GPIO.cleanup()
