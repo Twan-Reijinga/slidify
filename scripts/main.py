@@ -142,7 +142,7 @@ if __name__ == "__main__":
 		prevTime = time.time()
 		while True:
 			currTime = time.time()
-			dt = currTime - prevTime
+			dt = (currTime - prevTime)*1000
 			songData['position'] += dt
 			prevTime = currTime
 			progress = songData['position']/songData['length']
@@ -158,7 +158,7 @@ if __name__ == "__main__":
 			#if songData['volume'] > 100:
 				#songData['volume'] = 100
 			#change_volume(server['os'], ssh, songData['volume'])
-			time.sleep(0.001)
+			time.sleep(0.1)
 	except KeyboardInterrupt:
 		pwm.stop()
 		GPIO.cleanup()
