@@ -149,8 +149,12 @@ if __name__ == "__main__":
 			if songData['position'] > songData['length']:
 				songData = get_songData(server['os'], ssh)	
 			slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
+			if(slider_position < 50):
+				change_song(os, ssh, 'previous')
+			if(slider_position > 1960):
+				change_song(os, ssh, 'next')
 			print(f"slider_position: {slider_position} - progress {progress}")
-			toValue = 50 + int(progress * 1900)
+			toValue = 80 + int(progress * 1850)
 			slide_to_value(toValue, slider_position, in1, in2, pwm)
 			#songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
 			#if songData['volume'] < 0:
