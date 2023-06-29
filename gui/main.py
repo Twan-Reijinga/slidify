@@ -1,9 +1,12 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter.font import Font
 
 window = Tk()
 window.geometry("480x320")
 window.configure(bg = "#FFFFFF")
+text = Text(window)
+# myFont = text.configure(font=myFont)
 
 canvas = Canvas(
     window,
@@ -23,7 +26,7 @@ canvas.create_text(
     anchor="nw",
     text="VOL 12/20",
     fill="#000000",
-    font=("ArialMT", 24 * -1)
+    font=("Arial", 24)
 )
 
 # song name
@@ -33,17 +36,17 @@ canvas.create_text(
     anchor="nw",
     text="Song 2",
     fill="#000000",
-    font=("UniversLTStd LightUltraCn", 96 * -1)
+    font=("Univers LT Std", 96)
 )
 
 # artist name
 canvas.create_text(
     48.0,
-    131.0,
+    148.0,
     anchor="nw",
     text="Artist Name",
     fill="#000000",
-    font=("UniversLTStd LightUltraCn", 24 * -1)
+    font=("Univers LT Std", 24)
 )
 
 # line
@@ -73,17 +76,6 @@ def volume_lines(maxLines, lines, x, y, w, h, p):
 
 volume_lines(20, 12, 48.0, 220.0, 8.0, 52.0, 8.0)
 
-
-
-
-canvas.create_rectangle(
-    48.0,
-    220.0,
-    56.0,
-    272.0,
-    fill="#000000",
-    outline="")
-#
 # canvas.create_rectangle(
 #     380.0,
 #     220.0,
@@ -91,5 +83,6 @@ canvas.create_rectangle(
 #     272.0,
 #     fill="#FFFFFF",
 #     outline="")
+
 window.resizable(False, False)
 window.mainloop()
