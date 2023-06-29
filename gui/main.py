@@ -1,12 +1,9 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
 
-
 window = Tk()
-
 window.geometry("480x320")
 window.configure(bg = "#FFFFFF")
-
 
 canvas = Canvas(
     window,
@@ -18,6 +15,7 @@ canvas = Canvas(
     relief = "ridge"
 )
 
+# volume
 canvas.place(x = 0, y = 0)
 canvas.create_text(
     48.0,
@@ -28,6 +26,7 @@ canvas.create_text(
     font=("ArialMT", 24 * -1)
 )
 
+# song name
 canvas.create_text(
     48.0,
     48.0,
@@ -37,6 +36,7 @@ canvas.create_text(
     font=("UniversLTStd LightUltraCn", 96 * -1)
 )
 
+# artist name
 canvas.create_text(
     48.0,
     131.0,
@@ -46,6 +46,7 @@ canvas.create_text(
     font=("UniversLTStd LightUltraCn", 24 * -1)
 )
 
+# line
 canvas.create_rectangle(
     45.0,
     205.0,
@@ -53,14 +54,35 @@ canvas.create_rectangle(
     208.0,
     fill="#000000",
     outline="")
-#
-# canvas.create_rectangle(
-#     48.0,
-#     220.0,
-#     322.0,
-#     272.0,
-#     fill="#000000",
-#     outline="")
+
+# volume lines
+def volume_lines(maxLines, lines, x, y, w, h, p):
+	for line in range(maxLines):
+		fill = "#000000"
+		if line > lines:
+			fill = "#DDDDDD"
+		canvas.create_rectangle(
+			x,
+			y,
+			x+w,
+			y+h,
+			fill=fill,
+			outline=""
+		)
+		x += w + p
+
+volume_lines(20, 12, 48.0, 220.0, 8.0, 52.0, 8.0)
+
+
+
+
+canvas.create_rectangle(
+    48.0,
+    220.0,
+    56.0,
+    272.0,
+    fill="#000000",
+    outline="")
 #
 # canvas.create_rectangle(
 #     380.0,
