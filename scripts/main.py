@@ -114,9 +114,9 @@ def change_song_position(os, ssh, position):
 
 if __name__ == "__main__":
 	volumeStep = 10
-	rotaryClk = 17
-	rotaryDt = 18
-	rotarySw = 27
+	rotaryClk = 0
+	rotaryDt = 1
+	rotarySw = 5
 	adcClk = 12
 	adcDout = 16
 	adcDin = 20
