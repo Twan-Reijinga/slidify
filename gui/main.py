@@ -1,65 +1,62 @@
 from pathlib import Path
 from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
-from tkinter.font import Font
 
-window = Tk()
-window.geometry("480x320")
-window.configure(bg = "#FFFFFF")
-text = Text(window)
-# myFont = text.configure(font=myFont)
+def setup_gui(bg):
+	window = Tk()
+	window.geometry("480x320")
+	window.configure(bg = bg)
 
-canvas = Canvas(
-    window,
-    bg = "#FFFFFF",
-    height = 320,
-    width = 480,
-    bd = 0,
-    highlightthickness = 0,
-    relief = "ridge"
-)
+	canvas = Canvas(
+		window,
+		bg = "#FFFFFF",
+		height = 320,
+		width = 480,
+		bd = 0,
+		highlightthickness = 0,
+		relief = "ridge"
+	)
+	canvas.place(x = 0, y = 0)
+	return window, canvas
 
-# volume
-canvas.place(x = 0, y = 0)
-canvas.create_text(
-    48.0,
-    176.0,
-    anchor="nw",
-    text="VOL 12/20",
-    fill="#000000",
-    font=("Arial", 24)
-)
+def display_song_text(canvas, x, y, title, artist, titleSize, artistSize):
+	titleText = canvas.create_text(
+		x,
+		y,
+		anchor="nw",
+		text=title,
+		fill="#000000",
+		font=("Univers LT Std", titleSize)
+	)
+	artistText = canvas.create_text(
+		x,
+		y+100,
+		anchor="nw",
+		text=artist,
+		fill="#000000",
+	    font=("Univers LT Std", artistSize)
+	)
+	return titleText, artistText
 
-# song name
-canvas.create_text(
-    48.0,
-    48.0,
-    anchor="nw",
-    text="Song 2",
-    fill="#000000",
-    font=("Univers LT Std", 96)
-)
+def display_volume_text(canvas, x, y, vol, maxVol, size):
+	volumeText = canvas.create_text(
+		x,
+		y,
+		anchor="nw",
+		text=f"VOL {vol}/{maxVol}",
+		fill="#000000",
+		font=("Arial", size)
+	)
+	canvas.create_rectangle(
+		45.0,
+		205.0,
+		432.0,
+		208.0,
+		fill="#000000",
+		outline=""
+	)
+	return volumeText
 
-# artist name
-canvas.create_text(
-    48.0,
-    148.0,
-    anchor="nw",
-    text="Artist Name",
-    fill="#000000",
-    font=("Univers LT Std", 24)
-)
-
-# line
-canvas.create_rectangle(
-    45.0,
-    205.0,
-    432.0,
-    208.0,
-    fill="#000000",
-    outline="")
-
-# volume lines
-def volume_lines(maxLines, lines, x, y, w, h, p):
+def volume_lines(lines, maxLines, x, y, w, h, p):
 	for line in range(maxLines):
 		fill = "#000000"
 		if line > lines:
@@ -74,15 +71,12 @@ def volume_lines(maxLines, lines, x, y, w, h, p):
 		)
 		x += w + p
 
-volume_lines(20, 12, 48.0, 220.0, 8.0, 52.0, 8.0)
+if __name__ == "__main__":
+	window, canvas = setup_gui("#FFFFFF")
+	titleText, artistText = display_song_text(canvas, 48.0, 48.0, "Song 2", "Artist Name", 96, 24)
+	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 24)
+	volume_lines(12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
+	# canvas.itemconfigure(titleText, text="wow")
+	window.resizable(False, False)
+	window.mainloop()
 
-# canvas.create_rectangle(
-#     380.0,
-#     220.0,
-#     432.0,
-#     272.0,
-#     fill="#FFFFFF",
-#     outline="")
-
-window.resizable(False, False)
-window.mainloop()
