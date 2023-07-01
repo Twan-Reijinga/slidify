@@ -74,7 +74,7 @@ def volume_lines(lines, maxLines, x, y, w, h, p):
 if __name__ == "__main__":
 	window, canvas = setup_gui("#FFFFFF")
 	titleText, artistText = display_song_text(canvas, 48.0, 48.0, "Song 2", "Artist Name", 96, 24)
-	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 24)
+	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 20)
 	volume_lines(12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
 	# canvas.itemconfigure(titleText, text="wow")
 	window.resizable(False, False)
