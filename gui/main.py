@@ -76,6 +76,8 @@ if __name__ == "__main__":
 	titleText, artistText = display_song_text(canvas, 48.0, 48.0, "Song 2", "Artist Name", 96, 24)
 	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 20)
 	volume_lines(12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
+	image = PhotoImage(file="assets/logo.png")
+	canvas.create_image(380, 220, image=image, anchor="nw")
 	# canvas.itemconfigure(titleText, text="wow")
 	window.resizable(False, False)
 	window.mainloop()
