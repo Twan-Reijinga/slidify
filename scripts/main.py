@@ -112,7 +112,7 @@ def change_song_position(os, ssh, position):
 	else:
 		print("position to {}: changing position is not yet supported on your system".format(str(position)))
 
-def test_clk_change():
+def handle_clk_change(clk, dt):
 	clkState = GPIO.input(clk)
 	dtState = GPIO.input(dt)
 	print(f"clk changed! clk:{clkState} dt:{dtState}")
@@ -142,7 +142,7 @@ if __name__ == "__main__":
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
 	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
-	GPIO.add_event_detect(rotaryClk, GPIO.BOTH, callback=test_clk_change, bouncetime=200)
+	GPIO.add_event_detect(rotaryClk, GPIO.BOTH, callback=lambda x: handle_clk_change(rotaryClk, rotaryDt), bouncetime=200)
 	
 	try:
 		prevTime = time.time()
