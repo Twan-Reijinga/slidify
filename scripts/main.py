@@ -4,7 +4,7 @@ from RPi import GPIO
 import time
 from getpass import getpass
 from dotenv import load_dotenv
-from rotary_encoder import setup_rotary_encoder, get_rotary_encoder_change
+from rotary_encoder import setup_rotary_encoder, handle_rotary_encoder_change
 from MCP3008 import setup_MCP3008, get_analog_value
 from motor_control import setup_motor, slide_to_value
 
@@ -117,16 +117,9 @@ def change_song_position(os, ssh, position):
 	else:
 		print("position to {}: changing position is not yet supported on your system".format(str(position)))
 
-def handle_clk_change(clk, dt, exec_function, os, ssh, volumeStep):
-	clkState = GPIO.input(clk)
-	dtState = GPIO.input(dt)
-	if clkState == dtState:
-		exec_function(os, ssh, volumeStep)
-	else:
-		exec_function(os, ssh, -volumeStep)
 
 if __name__ == "__main__":
-	volumeStep = 0.1
+	volumeStep = 0.05
 	rotaryClk = 0
 	rotaryDt = 1
 	rotarySw = 5
@@ -153,7 +146,7 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(
 		rotaryClk, 
 		GPIO.BOTH, 
-		callback=lambda x: handle_clk_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep), 
+		callback=lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep), 
 		bouncetime=100
 	)
 	
