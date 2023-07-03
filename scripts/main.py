@@ -158,12 +158,12 @@ if __name__ == "__main__":
 			print(f"slider_position: {slider_position} - progress {progress}")
 			toValue = 80 + int(progress * 1850)
 			slide_to_value(toValue, slider_position, in1, in2, pwm)
-			#songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
-			#if songData['volume'] < 0:
-				#songData['volume'] = 0
-			#if songData['volume'] > 100:
-				#songData['volume'] = 100
-			#change_volume(server['os'], ssh, songData['volume'])
+			songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
+			if songData['volume'] < 0:
+				songData['volume'] = 0
+			if songData['volume'] > 100:
+				songData['volume'] = 100
+			change_volume(server['os'], ssh, songData['volume'])
 			time.sleep(0.1)
 	except KeyboardInterrupt:
 		pwm.stop()
