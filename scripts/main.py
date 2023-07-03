@@ -117,14 +117,13 @@ def change_song_position(os, ssh, position):
 	else:
 		print("position to {}: changing position is not yet supported on your system".format(str(position)))
 
-def handle_clk_change(clk, dt, os, ssh, volumeStep):
+def handle_clk_change(clk, dt, exec_function, os, ssh, volumeStep):
 	clkState = GPIO.input(clk)
 	dtState = GPIO.input(dt)
-	print(f"clk changed! clk:{clkState} dt:{dtState}")
 	if clkState == dtState:
-		change_volume(os, ssh, volumeStep)
+		exec_function(os, ssh, volumeStep)
 	else:
-		change_volume(os, ssh, -volumeStep)
+		exec_function(os, ssh, -volumeStep)
 
 if __name__ == "__main__":
 	volumeStep = 0.1
@@ -154,7 +153,7 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(
 		rotaryClk, 
 		GPIO.BOTH, 
-		callback=lambda x: handle_clk_change(rotaryClk, rotaryDt, server['os'], ssh, volumeStep), 
+		callback=lambda x: handle_clk_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep), 
 		bouncetime=100
 	)
 	
