@@ -92,11 +92,15 @@ def play_pause_song(os, ssh):
 	elif os == 'Darwin':
 		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli togglePlayPause')
 
-def change_volume(os, ssh, volume):
+def change_volume(os, ssh, volumeChange):
+	action = "+"
+	if volumeChange < 0:
+		action = "-"
+
 	if os == 'Linux':
-		exec_ssh(ssh, 'playerctl -p spotify volume {}+'.format(str(volume)))
+		exec_ssh(ssh, f'playerctl -p spotify volume {volumeChange}{action}')
 	elif os == 'Darwin':
-		exec_ssh(ssh, 'osascript -e "set volume output volume {}"'.format(str(volume)))
+		exec_ssh(ssh, f'osascript -e "set volume output  volume ((output volume of (get volume settings)) {action} {volumeChange})"')
 
 def change_song(os, ssh, action):
 	if not action == 'previous' and not action == 'next':
@@ -118,10 +122,8 @@ def handle_clk_change(clk, dt, os, ssh, volumeStep):
 	print(f"clk changed! clk:{clkState} dt:{dtState}")
 	if clkState == dtState:
 		change_volume(os, ssh, volumeStep)
-		print("vol up")
 	else:
 		change_volume(os, ssh, -volumeStep)
-		print("vol down")
 
 if __name__ == "__main__":
 	volumeStep = 0.1
