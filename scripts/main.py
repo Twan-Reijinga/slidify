@@ -142,7 +142,7 @@ if __name__ == "__main__":
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
 	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
-	GPIO.add_event_detect(rotaryClk, GPIO.BOTH, callback=test, bouncetime=200)
+	GPIO.add_event_detect(rotaryClk, GPIO.BOTH, callback=test_clk_change, bouncetime=200)
 	
 	try:
 		prevTime = time.time()
