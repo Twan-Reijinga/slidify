@@ -94,7 +94,7 @@ def play_pause_song(os, ssh):
 
 def change_volume(os, ssh, volume):
 	if os == 'Linux':
-		exec_ssh(ssh, 'playerctl -p spotify {}'.format(str(volume)))
+		exec_ssh(ssh, 'playerctl -p spotify volume {}+'.format(str(volume)))
 	elif os == 'Darwin':
 		exec_ssh(ssh, 'osascript -e "set volume output volume {}"'.format(str(volume)))
 
@@ -102,7 +102,7 @@ def change_song(os, ssh, action):
 	if not action == 'previous' and not action == 'next':
 		raise ValueError('change_song action not supported')
 	if os == 'Linux':
-		exec_ssh(ssh, 'playerctl -p spotify volume {}+'.format(action))
+		exec_ssh(ssh, 'playerctl -p spotify {}'.format(action))
 	elif os == 'Darwin':
 		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli {}'.format(action))
 
@@ -152,7 +152,7 @@ if __name__ == "__main__":
 		rotaryClk, 
 		GPIO.BOTH, 
 		callback=lambda x: handle_clk_change(rotaryClk, rotaryDt, server['os'], ssh, volumeStep), 
-		bouncetime=20
+		bouncetime=100
 	)
 	
 	try:
