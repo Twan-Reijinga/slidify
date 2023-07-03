@@ -96,6 +96,7 @@ def change_volume(os, ssh, volumeChange):
 	action = "+"
 	if volumeChange < 0:
 		action = "-"
+		volumeChange *= -1
 
 	if os == 'Linux':
 		exec_ssh(ssh, 'playerctl -p spotify volume {}{}'.format(volumeChange, action))
