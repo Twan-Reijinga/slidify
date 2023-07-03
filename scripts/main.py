@@ -172,7 +172,7 @@ if __name__ == "__main__":
 			if(slider_position > 1960):
 				change_song(server["os"], ssh, 'next')
 				print("n")
-			print(f"slider_position: {slider_position} - progress {progress}")
+			# print(f"slider_position: {slider_position} - progress {progress}")
 			toValue = 80 + int(progress * 1850)
 			slide_to_value(toValue, slider_position, in1, in2, pwm)
 			# songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
