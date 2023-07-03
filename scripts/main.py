@@ -112,6 +112,11 @@ def change_song_position(os, ssh, position):
 	else:
 		print("position to {}: changing position is not yet supported on your system".format(str(position)))
 
+def test_clk_change():
+	clkState = GPIO.input(clk)
+	dtState = GPIO.input(dt)
+	print(f"clk changed! clk:{clkState} dt:{dtState}")
+
 if __name__ == "__main__":
 	volumeStep = 10
 	rotaryClk = 0
@@ -137,6 +142,7 @@ if __name__ == "__main__":
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
 	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
+	GPIO.add_event_detect(rotaryClk, GPIO.BOTH, callback=test, bouncetime=200)
 	
 	try:
 		prevTime = time.time()
@@ -158,12 +164,12 @@ if __name__ == "__main__":
 			print(f"slider_position: {slider_position} - progress {progress}")
 			toValue = 80 + int(progress * 1850)
 			slide_to_value(toValue, slider_position, in1, in2, pwm)
-			songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
-			if songData['volume'] < 0:
-				songData['volume'] = 0
-			if songData['volume'] > 100:
-				songData['volume'] = 100
-			change_volume(server['os'], ssh, songData['volume'])
+			# songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
+			# if songData['volume'] < 0:
+				# songData['volume'] = 0
+			# if songData['volume'] > 100:
+				# songData['volume'] = 100
+			# change_volume(server['os'], ssh, songData['volume'])
 			time.sleep(0.1)
 	except KeyboardInterrupt:
 		pwm.stop()
