@@ -98,9 +98,9 @@ def change_volume(os, ssh, volumeChange):
 		action = "-"
 
 	if os == 'Linux':
-		exec_ssh(ssh, f'playerctl -p spotify volume {volumeChange}{action}')
+		exec_ssh(ssh, 'playerctl -p spotify volume {}{}'.format(volumeChange, action))
 	elif os == 'Darwin':
-		exec_ssh(ssh, f'osascript -e "set volume output  volume ((output volume of (get volume settings)) {action} {volumeChange})"')
+		exec_ssh(ssh, 'osascript -e "set volume output  volume ((output volume of (get volume settings)) {} {})"'.format(action, volumeChange))
 
 def change_song(os, ssh, action):
 	if not action == 'previous' and not action == 'next':
