@@ -102,7 +102,7 @@ def change_song(os, ssh, action):
 	if not action == 'previous' and not action == 'next':
 		raise ValueError('change_song action not supported')
 	if os == 'Linux':
-		exec_ssh(ssh, 'playerctl -p spotify {}'.format(action))
+		exec_ssh(ssh, 'playerctl -p spotify volume {}+'.format(action))
 	elif os == 'Darwin':
 		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli {}'.format(action))
 
@@ -112,13 +112,17 @@ def change_song_position(os, ssh, position):
 	else:
 		print("position to {}: changing position is not yet supported on your system".format(str(position)))
 
-def handle_clk_change(clk, dt):
+def handle_clk_change(clk, dt, exec_function, *args):
 	clkState = GPIO.input(clk)
 	dtState = GPIO.input(dt)
 	print(f"clk changed! clk:{clkState} dt:{dtState}")
+	if clkState == dtState:
+		exec_function(*args)
+	else:
+		exec_function(*args)
 
 if __name__ == "__main__":
-	volumeStep = 10
+	volumeStep = 0.1
 	rotaryClk = 0
 	rotaryDt = 1
 	rotarySw = 5
@@ -142,7 +146,12 @@ if __name__ == "__main__":
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
 	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
-	GPIO.add_event_detect(rotaryClk, GPIO.BOTH, callback=lambda x: handle_clk_change(rotaryClk, rotaryDt), bouncetime=200)
+	GPIO.add_event_detect(
+		rotaryClk, 
+		GPIO.BOTH, 
+		callback=lambda x: handle_clk_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep), 
+		bouncetime=200
+	)
 	
 	try:
 		prevTime = time.time()
