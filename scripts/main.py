@@ -180,7 +180,7 @@ if __name__ == "__main__":
 	)
 
 	# songData update
-	window.after(2000, lambda x: change_song_text(canvas, titleText, artistText, 'title', 'aritst')
+	window.after(2000, lambda x: change_song_text(canvas, titleText, artistText, 'title', 'aritst'))
 
 
 
