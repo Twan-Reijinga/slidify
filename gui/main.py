@@ -76,6 +76,12 @@ def display_logo(canvas, x, y, path):
 	canvas.create_image(x, y, image=image, anchor="nw")
 	return image
 
+def change_song_text(canvas, titleText, artistText, title, artist):
+	canvas.itemconfigure(titleText, text=title)
+	canvas.itemconfigure(artistText, text=artist)
+
+def change_volume_text(canvas, volumeText, vol, maxVol):
+	canvas.itemconfigure(volumeText, text=f"VOL {vol}/{maxVol}")
 
 if __name__ == "__main__":
 	window, canvas = setup_gui("#FFFFFF")
