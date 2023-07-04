@@ -104,7 +104,10 @@ def get_volume(os, ssh):
 
 def change_volume(os, ssh, volumeChange, canvas, volumeText):
 	volume = get_volume(os, ssh)
-	print(volume)
+	volumeStep = round(volume/volumeChange, 0)
+	change_volume_text(canvas, volumeText, volumeStep, 1/volumeChange)
+	
+	print(volumeStep)
 	action = "+"
 	if volumeChange < 0:
 		action = "-"
@@ -113,7 +116,7 @@ def change_volume(os, ssh, volumeChange, canvas, volumeText):
 	if os == 'Linux':
 		exec_ssh(ssh, 'playerctl -p spotify volume {}{}'.format(volumeChange, action))
 	elif os == 'Darwin':
-		exec_ssh(ssh, 'osascript -e "set volume output  volume ((output volume of (get volume settings)) {} {})"'.format(action, volumeChange))
+		exec_ssh(ssh, 'osascript -e "set volume output  volume ({} {} {})"'.format(volume, action, volumeChange))
 
 def change_song(os, ssh, action):
 	if not action == 'previous' and not action == 'next':
@@ -151,7 +154,7 @@ if __name__ == "__main__":
 	songData = get_songData(server['os'], ssh)	
 
 	# gpio pins
-	pwm = setup_motor(19, 13, 26)
+	pwm = setup_motor(in1, in2, en)
 	GPIO.setwarnings(False)
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
 	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
