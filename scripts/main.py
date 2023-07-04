@@ -183,7 +183,7 @@ if __name__ == "__main__":
 		bouncetime=20
 	)
 
-	window.after(2000, update_songData)
+	window.after(2000, update_song_data)
 	window.mainloop()
 	
 	try:
