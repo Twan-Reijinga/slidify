@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from rotary_encoder import setup_rotary_encoder, handle_rotary_encoder_change
 from MCP3008 import setup_MCP3008, get_analog_value
 from motor_control import setup_motor, slide_to_value
+from ..gui import setup_gui, display_song_text, display_volume_text, display_volume_lines, display_logo 	
 
 load_dotenv()
 
@@ -132,12 +133,13 @@ if __name__ == "__main__":
 	in2 = 13
 	en = 26
 
+	# config	
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
 	server['os'] = exec_ssh(ssh, 'uname')
 	songData = get_songData(server['os'], ssh)	
-	print(songData)
 
+	# gpio pins
 	pwm = setup_motor(19, 13, 26)
 	GPIO.setwarnings(False)
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
@@ -149,6 +151,15 @@ if __name__ == "__main__":
 		callback=lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep), 
 		bouncetime=100
 	)
+
+	# gui
+	window, canvas = setup_gui("#FFFFFF")
+	titleText, artistText = display_song_text(canvas, 48.0, 48.0, "Song 2", "Artist Name", 96, 24)
+	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 20)
+	display_volume_lines(12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
+	image = display_logo(canvas, 380, 220, 'assets/logo.png')
+	window.resizable(False, False)
+	window.mainloop()
 	
 	try:
 		prevTime = time.time()
@@ -170,12 +181,6 @@ if __name__ == "__main__":
 			# print(f"slider_position: {slider_position} - progress {progress}")
 			toValue = 80 + int(progress * 1850)
 			slide_to_value(toValue, slider_position, in1, in2, pwm)
-			# songData['volume'] += get_rotary_encoder_change(rotaryClk, rotaryDt) * volumeStep
-			# if songData['volume'] < 0:
-				# songData['volume'] = 0
-			# if songData['volume'] > 100:
-				# songData['volume'] = 100
-			# change_volume(server['os'], ssh, songData['volume'])
 			time.sleep(0.1)
 	except KeyboardInterrupt:
 		pwm.stop()
