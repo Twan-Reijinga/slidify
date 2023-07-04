@@ -114,7 +114,7 @@ def change_volume(os, ssh, volumeChange, canvas, volumeText):
 		exec_ssh(ssh, 'osascript -e "set volume output  volume ((output volume of (get volume settings)) {} {})"'.format(action, volumeChange))
 	
 	volume = get_volume(os, ssh)
-	volumeStep = int(round(volume,2)/volumeChange)
+	volumeStep = round(round(volume,2)/volumeChange)
 	maxVolumeStep = int(1/volumeChange)
 	change_volume_text(canvas, volumeText, volumeStep, maxVolumeStep)
 	display_volume_lines(canvas, volumeStep, maxVolumeStep, 48.0, 196.0, 8.0, 52.0, 8.0)
