@@ -174,7 +174,7 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(
 		rotaryClk, 
 		GPIO.BOTH, 
-		callback=lambda: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText), 
+		callback=lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText), 
 		bouncetime=100
 	)
 
