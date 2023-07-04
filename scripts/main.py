@@ -2,14 +2,12 @@ import os
 import paramiko
 from RPi import GPIO
 import time
-from sys import path
 from getpass import getpass
 from dotenv import load_dotenv
 from rotary_encoder import setup_rotary_encoder, handle_rotary_encoder_change
 from MCP3008 import setup_MCP3008, get_analog_value
 from motor_control import setup_motor, slide_to_value
-path.append('..')
-from gui import setup_gui, display_song_text, display_volume_text, display_volume_lines, display_logo 	
+from gui.main import setup_gui, display_song_text, display_volume_text, display_volume_lines, display_logo 	
 
 load_dotenv()
 
@@ -158,7 +156,7 @@ if __name__ == "__main__":
 	window, canvas = setup_gui("#FFFFFF")
 	titleText, artistText = display_song_text(canvas, 48.0, 48.0, "Song 2", "Artist Name", 96, 24)
 	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 20)
-	display_volume_lines(12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
+	display_volume_lines(canvas, 12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
 	image = display_logo(canvas, 380, 220, 'assets/logo.png')
 	window.resizable(False, False)
 	window.mainloop()

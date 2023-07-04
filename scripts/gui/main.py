@@ -56,7 +56,7 @@ def display_volume_text(canvas, x, y, vol, maxVol, size):
 	)
 	return volumeText
 
-def display_volume_lines(lines, maxLines, x, y, w, h, p):
+def display_volume_lines(canvas, lines, maxLines, x, y, w, h, p):
 	for line in range(maxLines):
 		fill = "#000000"
 		if line > lines:
