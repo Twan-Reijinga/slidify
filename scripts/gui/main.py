@@ -59,8 +59,8 @@ def display_volume_text(canvas, x, y, vol, maxVol, size):
 def display_volume_lines(canvas, lines, maxLines, x, y, w, h, p):
 	for line in range(maxLines):
 		fill = "#000000"
-		if line >= lines AND line != maxLines:
-			fill = "#DDDDDD"
+		if line >= lines and line != maxLines:
+			fill = "#AAAAAA"
 		canvas.create_rectangle(
 			x,
 			y,
