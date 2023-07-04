@@ -8,12 +8,20 @@ def setup_rotary_encoder(clk, dt, sw):
 	GPIO.setup(sw, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 def handle_rotary_encoder_change(clk, dt, exec_function, os, ssh, volumeStep, canvas, volumeText):
+	GPIO.remove_event_detect(clk)
 	clkState = GPIO.input(clk)
 	dtState = GPIO.input(dt)
 	if clkState == dtState:
 		exec_function(os, ssh, volumeStep, canvas, volumeText)
 	else:
 		exec_function(os, ssh, -volumeStep, canvas, volumeText)
+	sleep(1)
+	GPIO.add_event_detect(
+		rotaryClk, 
+		GPIO.BOTH, 
+		callback=lambda: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText), 
+		bouncetime=100
+	)
 
 def get_rotary_encoder_change(clk, dt):
 	clkLastState = GPIO.input(clk) 

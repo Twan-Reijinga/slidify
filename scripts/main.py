@@ -114,7 +114,7 @@ def change_volume(os, ssh, volumeChange, canvas, volumeText):
 		exec_ssh(ssh, 'osascript -e "set volume output  volume ((output volume of (get volume settings)) {} {})"'.format(action, volumeChange))
 	
 	volume = get_volume(os, ssh)
-	volumeStep = int(volume/volumeChange)
+	volumeStep = int(round(volume,2)/volumeChange)
 	maxVolumeStep = int(1/volumeChange)
 	change_volume_text(canvas, volumeText, volumeStep, maxVolumeStep)
 	display_volume_lines(canvas, volumeStep, maxVolumeStep, 48.0, 196.0, 8.0, 52.0, 8.0)
@@ -168,19 +168,18 @@ if __name__ == "__main__":
 	display_volume_lines(canvas, 12, 20, 48.0, 196.0, 8.0, 52.0, 8.0)
 	image = display_logo(canvas, 380, 196, 'assets/logo.png')
 	window.attributes("-fullscreen", True)
-	# window.resizable(False, False)
 
 	# GPIO events
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	GPIO.add_event_detect(
 		rotaryClk, 
 		GPIO.BOTH, 
-		callback=lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText), 
+		callback=lambda: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText), 
 		bouncetime=100
 	)
 
 	# songData update
-	window.after(2000, lambda x: change_song_text(canvas, titleText, artistText, 'title', 'aritst'))
+	window.after(2000, lambda: change_song_text(canvas, titleText, artistText, 'title', 'aritst'))
 
 
 
