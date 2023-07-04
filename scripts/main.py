@@ -103,16 +103,16 @@ def get_volume(os, ssh):
 
 
 def change_volume(os, ssh, volumeChange, canvas, volumeText):
-	volume = get_volume(os, ssh)
-	volumeStep = round(volume/volumeChange, 0)
-	change_volume_text(canvas, volumeText, volumeStep, 1/volumeChange)
-	
-	print(volumeStep)
 	action = "+"
 	if volumeChange < 0:
 		action = "-"
 		volumeChange *= -1
 
+	volume = get_volume(os, ssh)
+	volumeStep = int(volume/volumeChange)
+	change_volume_text(canvas, volumeText, volumeStep, int(1/volumeChange))
+	
+	print(volumeStep)
 	if os == 'Linux':
 		exec_ssh(ssh, 'playerctl -p spotify volume {}{}'.format(volumeChange, action))
 	elif os == 'Darwin':
