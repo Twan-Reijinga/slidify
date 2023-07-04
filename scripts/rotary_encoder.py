@@ -17,7 +17,7 @@ def handle_rotary_encoder_change(clk, dt, exec_function, os, ssh, volumeStep, ca
 		exec_function(os, ssh, -volumeStep, canvas, volumeText)
 	sleep(1)
 	GPIO.add_event_detect(
-		rotaryClk, 
+		clk, 
 		GPIO.BOTH, 
 		callback=lambda x: handle_rotary_encoder_change(clk, dt, exec_function, os, ssh, volumeStep, canvas, volumeText), 
 		bouncetime=100
