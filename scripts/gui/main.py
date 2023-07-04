@@ -50,7 +50,7 @@ def display_volume_text(canvas, x, y, vol, maxVol, size):
 		45.0,
 		181.0,
 		432.0,
-		208.0,
+		184.0,
 		fill="#000000",
 		outline=""
 	)

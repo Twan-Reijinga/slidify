@@ -13,7 +13,7 @@ def handle_rotary_encoder_change(clk, dt, exec_function, os, ssh, volumeStep, ca
 	if clkState == dtState:
 		exec_function(os, ssh, volumeStep, canvas, volumeText)
 	else:
-		exec_function(os, ssh, -volumeStep)
+		exec_function(os, ssh, -volumeStep, canvas, volumeText)
 
 def get_rotary_encoder_change(clk, dt):
 	clkLastState = GPIO.input(clk) 
