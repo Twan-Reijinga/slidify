@@ -138,7 +138,7 @@ def change_song_position(os, ssh, position):
 def update_song_data():
 	global songData
 	songData = get_songData(server['os'], ssh)	
-	change_song_text(canvas, titleText, artistText, songData['title'], songData['aritst'])
+	change_song_text(canvas, titleText, artistText, songData['title'], songData['artist'])
 
 if __name__ == "__main__":
 	volumeStep = 0.05
