@@ -144,21 +144,24 @@ if __name__ == "__main__":
 	GPIO.setwarnings(False)
 	setup_MCP3008(adcClk, adcDout, adcDin, adcCs)
 	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
+
+	# gui
+	window, canvas = setup_gui("#FFFFFF")
+	titleText, artistText = display_song_text(canvas, 48.0, 24.0, songData['title'], songData['artist'], 96, 24)
+	volumeText = display_volume_text(canvas, 48.0, 152.0, 12, 20, 20)
+	display_volume_lines(canvas, 12, 20, 48.0, 196.0, 8.0, 52.0, 8.0)
+	image = display_logo(canvas, 380, 196, 'assets/logo.png')
+	window.resizable(False, False)
+
+	# GPIO events
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 	GPIO.add_event_detect(
 		rotaryClk, 
 		GPIO.BOTH, 
-		callback=lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep), 
+		callback=(lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep), print('test')), 
 		bouncetime=100
 	)
 
-	# gui
-	window, canvas = setup_gui("#FFFFFF")
-	titleText, artistText = display_song_text(canvas, 24.0, 48.0, songData['title'], songData['artist'], 96, 24)
-	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 20)
-	display_volume_lines(canvas, 12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
-	image = display_logo(canvas, 380, 220, 'assets/logo.png')
-	window.resizable(False, False)
 	window.mainloop()
 	
 	try:
