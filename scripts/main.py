@@ -175,7 +175,7 @@ if __name__ == "__main__":
 		rotaryClk, 
 		GPIO.BOTH, 
 		callback=lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText), 
-		bouncetime=100
+		bouncetime=20
 	)
 
 	# songData update
