@@ -108,7 +108,6 @@ def change_volume(os, ssh, volumeChange, canvas, volumeText):
 		action = "-"
 		volumeChange *= -1
 
-	print(volumeStep)
 	if os == 'Linux':
 		exec_ssh(ssh, 'playerctl -p spotify volume {}{}'.format(volumeChange, action))
 	elif os == 'Darwin':
@@ -168,7 +167,8 @@ if __name__ == "__main__":
 	volumeText = display_volume_text(canvas, 48.0, 152.0, 12, 20, 20)
 	display_volume_lines(canvas, 12, 20, 48.0, 196.0, 8.0, 52.0, 8.0)
 	image = display_logo(canvas, 380, 196, 'assets/logo.png')
-	window.resizable(False, False)
+	window.attributes("-fullscreen", True)
+	# window.resizable(False, False)
 
 	# GPIO events
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
@@ -178,6 +178,11 @@ if __name__ == "__main__":
 		callback=lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText), 
 		bouncetime=100
 	)
+
+	# songData update
+	window.after(2000, lambda x: change_song_text(canvas, titleText, artistText, 'title', 'aritst')
+
+
 
 	window.mainloop()
 	
