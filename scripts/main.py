@@ -135,7 +135,7 @@ def change_song_position(os, ssh, position):
 	else:
 		print("position to {}: changing position is not yet supported on your system".format(str(position)))
 
-def update_song_data():
+def update_song_data(os, ssh, canvas, titleText, artistText):
 	global songData
 	songData = get_songData(server['os'], ssh)	
 	change_song_text(canvas, titleText, artistText, songData['title'], songData['artist'])
@@ -183,7 +183,7 @@ if __name__ == "__main__":
 		bouncetime=20
 	)
 
-	window.after(2000, update_song_data)
+	window.after(2000, lambda: update_song_data(server['os'], ssh, canvas, titleText, artistText))
 	window.mainloop()
 	
 	try:
