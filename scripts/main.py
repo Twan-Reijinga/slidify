@@ -2,12 +2,14 @@ import os
 import paramiko
 from RPi import GPIO
 import time
+from sys import path
 from getpass import getpass
 from dotenv import load_dotenv
 from rotary_encoder import setup_rotary_encoder, handle_rotary_encoder_change
 from MCP3008 import setup_MCP3008, get_analog_value
 from motor_control import setup_motor, slide_to_value
-from ..gui import setup_gui, display_song_text, display_volume_text, display_volume_lines, display_logo 	
+path.append('..')
+from gui import setup_gui, display_song_text, display_volume_text, display_volume_lines, display_logo 	
 
 load_dotenv()
 
