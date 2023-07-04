@@ -108,17 +108,18 @@ def change_volume(os, ssh, volumeChange, canvas, volumeText):
 		action = "-"
 		volumeChange *= -1
 
+	print(volumeStep)
+	if os == 'Linux':
+		exec_ssh(ssh, 'playerctl -p spotify volume {}{}'.format(volumeChange, action))
+	elif os == 'Darwin':
+		exec_ssh(ssh, 'osascript -e "set volume output  volume ((output volume of (get volume settings)) {} {})"'.format(action, volumeChange))
+	
 	volume = get_volume(os, ssh)
 	volumeStep = int(volume/volumeChange)
 	maxVolumeStep = int(1/volumeChange)
 	change_volume_text(canvas, volumeText, volumeStep, maxVolumeStep)
 	display_volume_lines(canvas, volumeStep, maxVolumeStep, 48.0, 196.0, 8.0, 52.0, 8.0)
-	
-	print(volumeStep)
-	if os == 'Linux':
-		exec_ssh(ssh, 'playerctl -p spotify volume {}{}'.format(volumeChange, action))
-	elif os == 'Darwin':
-		exec_ssh(ssh, 'osascript -e "set volume output  volume ({} {} {})"'.format(volume, action, volumeChange))
+
 
 def change_song(os, ssh, action):
 	if not action == 'previous' and not action == 'next':
