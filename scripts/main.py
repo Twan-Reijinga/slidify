@@ -10,6 +10,7 @@ from motor_control import setup_motor, slide_to_value
 from gui.main import * 	
 
 load_dotenv()
+songData = []
 
 def get_server_config():
 	server = {
@@ -134,6 +135,10 @@ def change_song_position(os, ssh, position):
 	else:
 		print("position to {}: changing position is not yet supported on your system".format(str(position)))
 
+def update_song_data():
+	global songData
+	songData = get_songData(server['os'], ssh)	
+	change_song_text(canvas, titleText, artistText, songData['title'], songData['aritst'])
 
 if __name__ == "__main__":
 	volumeStep = 0.05
@@ -178,11 +183,7 @@ if __name__ == "__main__":
 		bouncetime=20
 	)
 
-	# songData update
-	window.after(2000, lambda: change_song_text(canvas, titleText, artistText, 'title', 'aritst'))
-
-
-
+	window.after(2000, update_songData)
 	window.mainloop()
 	
 	try:
