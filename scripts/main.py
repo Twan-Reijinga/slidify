@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from rotary_encoder import setup_rotary_encoder, handle_rotary_encoder_change
 from MCP3008 import setup_MCP3008, get_analog_value
 from motor_control import setup_motor, slide_to_value
-from gui.main import setup_gui, display_song_text, display_volume_text, display_volume_lines, display_logo 	
+from gui.main import * 	
 
 load_dotenv()
 
@@ -93,7 +93,18 @@ def play_pause_song(os, ssh):
 	elif os == 'Darwin':
 		exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli togglePlayPause')
 
-def change_volume(os, ssh, volumeChange):
+def get_volume(os, ssh):
+	volume = -1
+	if os == 'Linux':
+		volume = exec_ssh(ssh, 'playerctl -p spotify volume')
+	if os == 'Darwin':
+		volume = exec_ssh(ssh, 'osascript -e "get volume stetting')/100
+	return volume
+
+
+def change_volume(os, ssh, volumeChange, canvas, volumeText):
+	volume = get_volume(os, ssh)
+	print(volume)
 	action = "+"
 	if volumeChange < 0:
 		action = "-"
@@ -158,7 +169,7 @@ if __name__ == "__main__":
 	GPIO.add_event_detect(
 		rotaryClk, 
 		GPIO.BOTH, 
-		callback=(lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep), print('test')), 
+		callback=lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText), 
 		bouncetime=100
 	)
 

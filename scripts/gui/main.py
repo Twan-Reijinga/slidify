@@ -48,7 +48,7 @@ def display_volume_text(canvas, x, y, vol, maxVol, size):
 	)
 	canvas.create_rectangle(
 		45.0,
-		205.0,
+		181.0,
 		432.0,
 		208.0,
 		fill="#000000",
