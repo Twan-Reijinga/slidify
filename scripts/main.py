@@ -66,14 +66,14 @@ def get_linux_songData(ssh):
 	return songData
 
 def get_macos_songData(ssh):
-	metadata = exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli get duration album artist title elapsedTime position')
+	metadata = exec_ssh(ssh, './Documents/nowplaying-cli/nowplaying-cli get duration album artist title')
 	metadata_lines = metadata.split('\n')
 	songData = {
 		'length': int(float(metadata_lines[0]) * 1000),
 		'album': metadata_lines[1],
 		'artist': metadata_lines[2],
 		'title': metadata_lines[3],
-		'position': int(float(metadata_lines[4]) * 1000),
+		'position': int(float(exec_ssh(ssh, "osascript -e 'tell application \"Spotify\" to player position'")) * 1000),
 		'volume': float(exec_ssh(ssh, 'osascript -e "output volume of (get volume settings)"'))/100
 	}
 	return songData
