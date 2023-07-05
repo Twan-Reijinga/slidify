@@ -141,8 +141,27 @@ def update_song_data(os, ssh, window, canvas, titleText, artistText, songUpdateF
 	change_song_text(canvas, titleText, artistText, songData['title'], songData['artist'])
 	window.after(songUpdateFreq, lambda: update_song_data(os, ssh, window, canvas, titleText, artistText, songUpdateFreq))
 
+def update_slider(os, ssh, window, sliderUpdateFreq):
+	global songData
+	songData['position'] += sliderUpdateFreq
+	progress = songData['position']/songData['length']
+	if songData['position'] > songData['length']:
+		songData = get_songData(server['os'], ssh)	
+	sliderPosition = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
+	if(sliderPosition < 50):
+		change_song(server["os"], ssh, 'previous')
+		print("p")
+	elif(sliderPosition > 1960):
+		change_song(server["os"], ssh, 'next')
+		print("n")
+	print(f"slider_position: {slider_position} - progress {progress}")
+	toValue = 80 + int(progress * 1850)
+	slide_to_value(toValue, sliderPosition, in1, in2, pwm)
+	window.after(sliderUpdateFreq, lambda: update_slider(os, ssh, window, sliderUpdateFreq))
+
 def main():
 	songUpdateFreq = 2000
+	sliderUpdateFreq = 100
 	volumeStep = 0.05
 	rotaryClk = 0
 	rotaryDt = 1
@@ -186,28 +205,10 @@ def main():
 	)
 
 	window.after(songUpdateFreq, lambda: update_song_data(server['os'], ssh, window, canvas, titleText, artistText, songUpdateFreq))
+	window.after(sliderUpdateFreq, lambda: update_slider(server['os'], ssh, window, sliderUpdateFreq))
 	window.mainloop()
 	
 	prevTime = time.time()
-	while True:
-		currTime = time.time()
-		dt = (currTime - prevTime)*1000
-		songData['position'] += dt
-		prevTime = currTime
-		progress = songData['position']/songData['length']
-		if songData['position'] > songData['length']:
-			songData = get_songData(server['os'], ssh)	
-		slider_position = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
-		if(slider_position < 50):
-			change_song(server["os"], ssh, 'previous')
-			print("p")
-		if(slider_position > 1960):
-			change_song(server["os"], ssh, 'next')
-			print("n")
-		# print(f"slider_position: {slider_position} - progress {progress}")
-		toValue = 80 + int(progress * 1850)
-		slide_to_value(toValue, slider_position, in1, in2, pwm)
-		time.sleep(0.1)
 
 
 if __name__ == "__main__":
