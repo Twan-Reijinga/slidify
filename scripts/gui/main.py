@@ -20,7 +20,7 @@ def setup_gui(bg):
 
 def display_song_text(canvas, x, y, title, artist, titleSize, artistSize):
 	titleText = canvas.create_text(
-		x-50,
+		x,
 		y,
 		anchor="nw",
 		text=title,

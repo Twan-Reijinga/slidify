@@ -215,7 +215,7 @@ if __name__ == "__main__":
 	except KeyboardInterrupt:
 		pwm.stop()
 		GPIO.cleanup()
-		print("KeyboardInterrupt")
+		exit()
 
 	
 
