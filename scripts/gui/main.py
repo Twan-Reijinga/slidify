@@ -1,5 +1,5 @@
 from pathlib import Path
-from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage
+from tkinter import Tk, Canvas, Entry, Text, Button, PhotoImage, font
 
 def setup_gui(bg):
 	window = Tk()
@@ -19,6 +19,7 @@ def setup_gui(bg):
 	return window, canvas
 
 def display_song_text(canvas, x, y, title, artist, titleSize, artistSize):
+	print(font_measure("Univers LT Std", titleSize, title))
 	titleText = canvas.create_text(
 		x,
 		y,
@@ -83,12 +84,19 @@ def change_song_text(canvas, titleText, artistText, title, artist):
 def change_volume_text(canvas, volumeText, vol, maxVol):
 	canvas.itemconfigure(volumeText, text=f"VOL {vol}/{maxVol}")
 
+def font_measure(fontType, size, text):
+	f = font.Font(family='fontType', size=size)
+	return f.measure(text)
+	
+
 if __name__ == "__main__":
 	window, canvas = setup_gui("#FFFFFF")
 	titleText, artistText = display_song_text(canvas, 48.0, 48.0, "Song 2", "Artist Name", 96, 24)
 	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 20)
-	display_volume_lines(12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
+	display_volume_lines(canvas, 12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
 	image = display_logo(canvas, 380, 220, 'assets/logo.png')
+	fontWidth = font_measure("Univers LT Std", 32, "HALLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+	print(fontWidth)
 	window.resizable(False, False)
 	window.mainloop()
 
