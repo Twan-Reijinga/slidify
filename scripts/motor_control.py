@@ -31,7 +31,7 @@ def slide_to_value(target, val, in1, in2, pwm):
 	dif = abs(val - target)
 	duration = 0.0001 * dif
 	if(dif > 200):
-		duration = 0.5
+		duration = 0.3
 	if abs(val - target) > 20:
 		if val > target:
 			GPIO.output(in1, GPIO.LOW)

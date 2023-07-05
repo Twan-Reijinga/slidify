@@ -19,7 +19,7 @@ def setup_gui(bg):
 	return window, canvas
 
 def display_song_text(canvas, x, y, title, artist, titleSize, artistSize):
-	title = cut_text_at_width("Univers LT Std", titleSize, title, 400)
+	# title = cut_text_at_width("Univers LT Std", titleSize, title, 400)
 	titleText = canvas.create_text(
 		x-10,
 		y-1,
