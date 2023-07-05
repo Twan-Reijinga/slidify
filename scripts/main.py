@@ -192,6 +192,7 @@ def main():
 	titleText, artistText = display_song_text(canvas, 48.0, 24.0, songData['title'], songData['artist'], 96, 24)
 	volumeText = display_volume_text(canvas, 48.0, 152.0, 12, 20, 20)
 	display_volume_lines(canvas, 12, 20, 48.0, 196.0, 8.0, 52.0, 8.0)
+	handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText)
 	image = display_logo(canvas, 380, 196, 'assets/logo.png')
 	window.attributes("-fullscreen", True)
 
