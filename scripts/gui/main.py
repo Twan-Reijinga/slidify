@@ -89,16 +89,16 @@ def cut_text_at_width(fontType, size, text, width):
 	font = font.Font(family='fontType', size=size)
 	if text_width <= width:
 	    return text
-		
+	
 	ellipsis = "..."
 	ellipsis_width = font.measure(ellipsis)
 	if ellipsis_width >= width:
 	    return ellipsis
-
-    cut_index = 0
+	
+	cut_index = 0
 	while font.measure(text[:cut_index] + ellipsis) < width:
 		cut_index += 1
-
+	
 	return text[:cut_index-1] + ellipsis
 	
 
