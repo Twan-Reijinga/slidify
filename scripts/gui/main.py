@@ -20,7 +20,7 @@ def setup_gui(bg):
 
 def display_song_text(canvas, x, y, title, artist, titleSize, artistSize):
 	titleText = canvas.create_text(
-		x,
+		x-50,
 		y,
 		anchor="nw",
 		text=title,
@@ -47,10 +47,10 @@ def display_volume_text(canvas, x, y, vol, maxVol, size):
 		font=("Arial", size)
 	)
 	canvas.create_rectangle(
-		45.0,
-		181.0,
+		x,
+		y+29,
 		432.0,
-		184.0,
+		y+32,
 		fill="#000000",
 		outline=""
 	)

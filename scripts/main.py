@@ -192,10 +192,10 @@ def main():
 
 	# gui
 	window, canvas = setup_gui("#FFFFFF")
-	titleText, artistText = display_song_text(canvas, 48.0, 24.0, songData['title'], songData['artist'], 96, 24)
-	volumeText = display_volume_text(canvas, 48.0, 152.0, 12, 20, 20)
-	display_volume_lines(canvas, 12, 20, 48.0, 196.0, 8.0, 52.0, 8.0)
-	image = display_logo(canvas, 380, 196, 'assets/logo.png')
+	titleText, artistText = display_song_text(canvas, 48.0, 48.0, songData['title'], songData['artist'], 96, 24)
+	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 20)
+	display_volume_lines(canvas, 12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
+	image = display_logo(canvas, 380, 220, 'assets/logo.png')
 	window.attributes("-fullscreen", True)
 
 	# GPIO events
