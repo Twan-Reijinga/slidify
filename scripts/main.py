@@ -160,6 +160,7 @@ def update_slider(os, ssh, window, sliderUpdateFreq):
 	window.after(sliderUpdateFreq, lambda: update_slider(os, ssh, window, sliderUpdateFreq))
 
 def main():
+	global songData
 	songUpdateFreq = 2000
 	sliderUpdateFreq = 100
 	volumeStep = 0.05
