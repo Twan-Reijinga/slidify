@@ -86,7 +86,7 @@ def get_songData(os, ssh):
 		songData = get_macos_songData(ssh)
 	else:
 		raise ValueError("your OS is not yet supported")
-	songData['title'] = cut_text_at_width("Univers LT Std", titleSize, title, 400)
+	songData['title'] = cut_text_at_width("Univers LT Std", 96, songData['title'], 400)
 	return songData
 
 def play_pause_song(os, ssh):
