@@ -85,17 +85,18 @@ def change_volume_text(canvas, volumeText, vol, maxVol):
 	canvas.itemconfigure(volumeText, text=f"VOL {vol}/{maxVol}")
 
 def cut_text_at_width(fontType, size, text, width):
-	font = font.Font(family='fontType', size=size)
+	f = font.Font(family='fontType', size=size)
+	text_width = f.measure(text)
 	if text_width <= width:
 	    return text
 	
 	ellipsis = "..."
-	ellipsis_width = font.measure(ellipsis)
+	ellipsis_width = f.measure(ellipsis)
 	if ellipsis_width >= width:
 	    return ellipsis
 	
 	cut_index = 0
-	while font.measure(text[:cut_index] + ellipsis) < width:
+	while f.measure(text[:cut_index] + ellipsis) < width:
 		cut_index += 1
 	
 	return text[:cut_index-1] + ellipsis
@@ -107,7 +108,7 @@ if __name__ == "__main__":
 	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 20)
 	display_volume_lines(canvas, 12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
 	image = display_logo(canvas, 380, 220, 'assets/logo.png')
-	fontWidth = font_measure("Univers LT Std", 32, "HALLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
+	fontWidth = cut_text_at_width("Univers LT Std", 42, "HALLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO", 400)
 	print(fontWidth)
 	window.resizable(False, False)
 	window.mainloop()
