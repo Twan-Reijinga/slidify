@@ -154,10 +154,10 @@ def update_slider(os, ssh, window, sliderUpdateFreq, channel, clk, Dout, Din, cs
 	elif(sliderPosition > 1960):
 		change_song(os, ssh, 'next')
 		print("n")
-	print(f"slider_position: {slider_position} - progress {progress}")
+	print(f"slider_position: {sliderPosition} - progress {progress}")
 	toValue = 80 + int(progress * 1850)
 	slide_to_value(toValue, sliderPosition, in1, in2, pwm)
-	window.after(sliderUpdateFreq, lambda: update_slider(os, ssh, window, sliderUpdateFreq))
+	window.after(sliderUpdateFreq, lambda: update_slider(os, ssh, window, sliderUpdateFreq, channel, clk, Dout, Din, cs, in1, in2, pwm))
 
 def main():
 	global songData
