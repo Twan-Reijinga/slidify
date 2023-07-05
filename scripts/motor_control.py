@@ -31,7 +31,7 @@ def slide_to_value(target, val, in1, in2, pwm):
 	dif = abs(val - target)
 	duration = 0.0001 * dif
 	if(dif > 200):
-		duration = 0.25
+		duration = 0.5
 	if abs(val - target) > 20:
 		if val > target:
 			GPIO.output(in1, GPIO.LOW)
@@ -39,7 +39,7 @@ def slide_to_value(target, val, in1, in2, pwm):
 		else:
 			GPIO.output(in1, GPIO.HIGH)
 			GPIO.output(in2, GPIO.LOW)
-		pwm.ChangeDutyCycle(min(dif/25, 25))
+		pwm.ChangeDutyCycle(max(min(dif/25, 25), 40))
 		sleep(duration)
 	GPIO.output(in1, GPIO.LOW)
 	GPIO.output(in2, GPIO.LOW)
