@@ -20,9 +20,10 @@ def setup_gui(bg):
 
 def display_song_text(canvas, x, y, title, artist, titleSize, artistSize):
 	print(font_measure("Univers LT Std", titleSize, title))
+	title = cut_text_at_width("Univers LT Std", titleSize, title, 400)
 	titleText = canvas.create_text(
-		x,
-		y,
+		x-10,
+		y-1,
 		anchor="nw",
 		text=title,
 		fill="#000000",
@@ -84,9 +85,21 @@ def change_song_text(canvas, titleText, artistText, title, artist):
 def change_volume_text(canvas, volumeText, vol, maxVol):
 	canvas.itemconfigure(volumeText, text=f"VOL {vol}/{maxVol}")
 
-def font_measure(fontType, size, text):
-	f = font.Font(family='fontType', size=size)
-	return f.measure(text)
+def cut_text_at_width(fontType, size, text, width):
+	font = font.Font(family='fontType', size=size)
+	if text_width <= width:
+	    return text
+		
+	ellipsis = "..."
+	ellipsis_width = font.measure(ellipsis)
+	if ellipsis_width >= width:
+	    return ellipsis
+
+    cut_index = 0
+	while font.measure(text[:cut_index] + ellipsis) < width:
+		cut_index += 1
+
+	return text[:cut_index-1] + ellipsis
 	
 
 if __name__ == "__main__":
