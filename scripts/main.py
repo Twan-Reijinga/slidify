@@ -99,7 +99,7 @@ def get_volume(os, ssh):
 	if os == 'Linux':
 		volume = float(exec_ssh(ssh, 'playerctl -p spotify volume'))
 	if os == 'Darwin':
-		volume = float(exec_ssh(ssh, 'osascript -e "output volume of (get volume settings)'))/100
+		volume = float(exec_ssh(ssh, 'osascript -e "output volume of (get volume settings)"'))/100
 	return volume
 
 
@@ -112,7 +112,7 @@ def change_volume(os, ssh, volumeChange, canvas, volumeText):
 	if os == 'Linux':
 		exec_ssh(ssh, 'playerctl -p spotify volume {}{}'.format(volumeChange, action))
 	elif os == 'Darwin':
-		exec_ssh(ssh, 'osascript -e "set volume output  volume ((output volume of (get volume settings)) {} {})"'.format(action, volumeChange))
+		exec_ssh(ssh, 'osascript -e "set volume output  volume ((output volume of (get volume settings)) {} {}*100)"'.format(action, volumeChange))
 	
 	volume = get_volume(os, ssh)
 	volumeStep = round(round(volume,2)/volumeChange)
