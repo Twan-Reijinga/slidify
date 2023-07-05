@@ -141,18 +141,18 @@ def update_song_data(os, ssh, window, canvas, titleText, artistText, songUpdateF
 	change_song_text(canvas, titleText, artistText, songData['title'], songData['artist'])
 	window.after(songUpdateFreq, lambda: update_song_data(os, ssh, window, canvas, titleText, artistText, songUpdateFreq))
 
-def update_slider(os, ssh, window, sliderUpdateFreq):
+def update_slider(os, ssh, window, sliderUpdateFreq, channel, clk, Dout, Din, cs, in1, in2, pwm):
 	global songData
 	songData['position'] += sliderUpdateFreq
 	progress = songData['position']/songData['length']
 	if songData['position'] > songData['length']:
-		songData = get_songData(server['os'], ssh)	
-	sliderPosition = get_analog_value(adcChannel, adcClk, adcDout, adcDin, adcCs)
+		songData = get_songData(os, ssh)	
+	sliderPosition = get_analog_value(channel, clk, Dout, Din, cs)
 	if(sliderPosition < 50):
-		change_song(server["os"], ssh, 'previous')
+		change_song(os, ssh, 'previous')
 		print("p")
 	elif(sliderPosition > 1960):
-		change_song(server["os"], ssh, 'next')
+		change_song(os, ssh, 'next')
 		print("n")
 	print(f"slider_position: {slider_position} - progress {progress}")
 	toValue = 80 + int(progress * 1850)
@@ -201,7 +201,7 @@ def main():
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
 
 	window.after(songUpdateFreq, lambda: update_song_data(server['os'], ssh, window, canvas, titleText, artistText, songUpdateFreq))
-	window.after(sliderUpdateFreq, lambda: update_slider(server['os'], ssh, window, sliderUpdateFreq))
+	window.after(sliderUpdateFreq, lambda: update_slider(server['os'], ssh, window, sliderUpdateFreq, adcChannel, adcClk, adcDout, adcDin, adcCs, in1, in2, pwm))
 	window.mainloop()
 	
 	prevTime = time.time()
