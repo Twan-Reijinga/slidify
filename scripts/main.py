@@ -74,7 +74,7 @@ def get_macos_songData(ssh):
 		'artist': metadata_lines[2],
 		'title': metadata_lines[3],
 		'position': int(float(metadata_lines[4]) * 1000),
-		'volume': float(exec_ssh(ssh, 'osascript -e "get volume settings"').split(',')[0].split(':')[1])
+		'volume': float(exec_ssh(ssh, 'osascript -e "output volume of (get volume settings)"'))/100
 	}
 	return songData
 
@@ -99,7 +99,7 @@ def get_volume(os, ssh):
 	if os == 'Linux':
 		volume = float(exec_ssh(ssh, 'playerctl -p spotify volume'))
 	if os == 'Darwin':
-		volume = float(exec_ssh(ssh, 'osascript -e "get volume stetting'))/100
+		volume = float(exec_ssh(ssh, 'osascript -e "output volume of (get volume settings)'))/100
 	return volume
 
 
