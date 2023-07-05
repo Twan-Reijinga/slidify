@@ -179,6 +179,8 @@ def main():
 	in2 = 13
 	en = 26
 
+	window, canvas = setup_gui("#FFFFFF")
+
 	# config	
 	server = get_server_config()
 	ssh = create_ssh_connection(server)
@@ -192,7 +194,6 @@ def main():
 	setup_rotary_encoder(rotaryClk, rotaryDt, rotarySw)
 
 	# gui
-	window, canvas = setup_gui("#FFFFFF")
 	titleText, artistText = display_song_text(canvas, 48.0, 48.0, songData['title'], songData['artist'], 96, 24)
 	volumeText = display_volume_text(canvas, 48.0, 176.0, 12, 20, 20)
 	display_volume_lines(canvas, 12, 20, 48.0, 220.0, 8.0, 52.0, 8.0)
