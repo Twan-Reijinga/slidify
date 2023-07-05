@@ -192,18 +192,12 @@ def main():
 	titleText, artistText = display_song_text(canvas, 48.0, 24.0, songData['title'], songData['artist'], 96, 24)
 	volumeText = display_volume_text(canvas, 48.0, 152.0, 12, 20, 20)
 	display_volume_lines(canvas, 12, 20, 48.0, 196.0, 8.0, 52.0, 8.0)
-	handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText)
 	image = display_logo(canvas, 380, 196, 'assets/logo.png')
 	window.attributes("-fullscreen", True)
 
 	# GPIO events
+	handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText)
 	GPIO.add_event_detect(rotarySw, GPIO.FALLING, callback=lambda x: play_pause_song(server['os'], ssh), bouncetime=200)
-	GPIO.add_event_detect(
-		rotaryClk, 
-		GPIO.BOTH, 
-		callback=lambda x: handle_rotary_encoder_change(rotaryClk, rotaryDt, change_volume, server['os'], ssh, volumeStep, canvas, volumeText), 
-		bouncetime=20
-	)
 
 	window.after(songUpdateFreq, lambda: update_song_data(server['os'], ssh, window, canvas, titleText, artistText, songUpdateFreq))
 	window.after(sliderUpdateFreq, lambda: update_slider(server['os'], ssh, window, sliderUpdateFreq))
