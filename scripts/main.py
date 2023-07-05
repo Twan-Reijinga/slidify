@@ -151,11 +151,11 @@ def update_slider(os, ssh, window, sliderUpdateFreq, channel, clk, Dout, Din, cs
 	if(sliderPosition < 50):
 		change_song(os, ssh, 'previous')
 		slide_to_value(90, sliderPosition, in1, in2, pwm)
-		sleep(sliderUpdateFreq/1000)
+		time.sleep(sliderUpdateFreq/1000)
 	elif(sliderPosition > 1960):
 		change_song(os, ssh, 'next')
 		slide_to_value(0, sliderPosition, in1, in2, pwm)
-		sleep(sliderUpdateFreq/1000)
+		time.sleep(sliderUpdateFreq/1000)
 	#print(f"slider_position: {sliderPosition} - progress {progress}")
 	toValue = 80 + int(progress * 1850)
 	slide_to_value(toValue, sliderPosition, in1, in2, pwm)
